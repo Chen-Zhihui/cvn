@@ -2,13 +2,8 @@
 //
 
 #include "cpptmpl.h"
-#include <Poco/OSP/ServiceRegistry.h>
+#include "TmplApp.h"
 
-using namespace std;
 
-int main()
-{
-	cout << "Hello CMake." << endl;
-	Poco::OSP::ServiceRegistry r;
-	return 0;
-}
+
+POCO_APP_MAIN(TmplApp)

@@ -13,8 +13,20 @@
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "E:\\solarvcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+          "name": "Poco_DIR",
+          "value": "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco"
+        },
+        {
+          "name": "JSON_DIR",
+          "value": "E:\\ws.local\\buildtree\\json\\nlohmann"
+        },
+        {
+          "name": "Cereal_DIR",
+          "value": "E:\\ws.local\\buildtree\\cereal-1.2.2\\include"
+        },
+        {
+          "name": "Catch_DIR",
+          "value": "E:\\ws.local\\buildtree\\Catch2-2.3.0\\include"
         }
       ]
     },
@@ -30,8 +42,20 @@
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "E:\\solarvcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+          "name": "Poco_DIR",
+          "value": "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco"
+        },
+        {
+          "name": "JSON_DIR",
+          "value": "E:\\ws.local\\buildtree\\json"
+        },
+        {
+          "name": "Cereal_DIR",
+          "value": "E:\\ws.local\\buildtree\\cereal-1.2.2\\include"
+        },
+        {
+          "name": "Catch_DIR",
+          "value": "E:\\ws.local\\buildtree\\Catch2-2.3.0\\include"
         }
       ]
     }
