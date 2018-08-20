@@ -9,7 +9,7 @@ if(1)
     set(Poco_DI "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
     set(Cereal_DIR "E:\\ws.local\\buildtree\\cereal-1.2.2\\include")
-    set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.3.0\\include")
+    set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
 endif()
 
 # Append our module directory to CMake

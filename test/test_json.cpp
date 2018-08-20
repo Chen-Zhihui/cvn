@@ -1,5 +1,5 @@
 
-#include "test.h"
+#include <catch.hpp>
 
 SCENARIO("json", "[all][operators]") {
 	GIVEN("a source") {
@@ -8,14 +8,14 @@ SCENARIO("json", "[all][operators]") {
 
 		WHEN("a predicate function is passed to the all operator") {
 
-			i ++
+			i++;
 
 			THEN("the output only contains true") {
 				i--;
 			}
 
 			THEN("there was 1 subscription/unsubscription to the source") {
-				i++
+				i++;
 			}
 
 		}

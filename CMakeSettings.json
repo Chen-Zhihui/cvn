@@ -26,7 +26,7 @@
         },
         {
           "name": "Catch_DIR",
-          "value": "E:\\ws.local\\buildtree\\Catch2-2.3.0\\include"
+          "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
         }
       ]
     },
@@ -55,7 +55,7 @@
         },
         {
           "name": "Catch_DIR",
-          "value": "E:\\ws.local\\buildtree\\Catch2-2.3.0\\include"
+          "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
         }
       ]
     }

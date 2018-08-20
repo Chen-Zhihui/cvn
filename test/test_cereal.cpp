@@ -1,6 +1,6 @@
 
 
-#include "test.h"
+#include <catch.hpp>
 
 SCENARIO("cereal", "[all][operators]") {
 	GIVEN("a source") {
