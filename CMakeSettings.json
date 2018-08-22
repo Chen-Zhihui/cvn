@@ -18,7 +18,7 @@
         },
         {
           "name": "JSON_DIR",
-          "value": "E:\\ws.local\\buildtree\\json\\nlohmann"
+          "value": "E:\\ws.local\\buildtree\\json-3.2.0\\single_include"
         },
         {
           "name": "Cereal_DIR",
@@ -27,6 +27,10 @@
         {
           "name": "Catch_DIR",
           "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
+        },
+        {
+          "name": "OpenCV_DIR",
+          "value": "E:\\ws.local\\opencv\\build"
         }
       ]
     },
@@ -47,7 +51,7 @@
         },
         {
           "name": "JSON_DIR",
-          "value": "E:\\ws.local\\buildtree\\json"
+          "value": "E:\\ws.local\\buildtree\\json-3.2.0\\single_include"
         },
         {
           "name": "Cereal_DIR",
@@ -56,6 +60,10 @@
         {
           "name": "Catch_DIR",
           "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
+        },
+        {
+          "name": "OpenCV_DIR",
+          "value": "E:\\ws.local\\opencv\\build"
         }
       ]
     }

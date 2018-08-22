@@ -6,6 +6,7 @@
 #include <Poco/Util/OptionSet.h>
 #include <Poco/Util/HelpFormatter.h>
 #include <Poco/Util/AbstractConfiguration.h>
+#include <Poco/Util/MapConfiguration.h>
 #include <Poco/AutoPtr.h>
 #include <iostream>
 #include <sstream>
@@ -25,7 +26,14 @@ class TmplApp : public Poco::Util::Application {
         
     TmplApp();
 
+	void init(int argc, char* argv[]);
+
+#if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
+	void init(int argc, wchar_t* argv[]);
+#endif
+
 protected:
+
 
 	void initialize(Poco::Util::Application& self);
 
@@ -49,8 +57,16 @@ protected:
 
 	void printProperties(const std::string & base);
 
+protected:
+
+	virtual void handleOption(const std::string& name, const std::string& value) override;
+
 private:
 
+	void setupLogger();
+
 	bool _helpRequested = false;
+
+	Poco::Util::MapConfiguration * _pMapConfig = nullptr;
 
 };

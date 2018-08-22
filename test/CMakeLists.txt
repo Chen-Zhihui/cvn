@@ -2,8 +2,8 @@
 
 set(testcase 
     test_main.cpp
-    test_catch.cpp
-	test_cereal.cpp 
+    #test_catch.cpp
+	#test_cereal.cpp 
 	test_json.cpp
 	)
 

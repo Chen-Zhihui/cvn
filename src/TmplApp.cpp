@@ -1,16 +1,100 @@
 
 
 #include "TmplApp.h"
+#include <Poco/Util/ConfigurationView.h>
+#include <Poco/FileChannel.h>
+#include <Poco/SplitterChannel.h>
+#include <Poco/ConsoleChannel.h>
+#include <Poco/PatternFormatter.h>
+#include <Poco/FormattingChannel.h>
+#include <Poco/Format.h>
+#include <Poco/File.h>
+#include <iostream>
 
 using namespace Poco;
 using namespace Poco::Util;
 
+void logConfig(const std::string &prefix, AbstractConfiguration & config, Logger & logger) {
+	AbstractConfiguration::Keys keys;
+	config.keys(keys);
+	for (auto & key : keys) {
+		if (config.has(key)) {
+			auto msg = (prefix == "" ? std::string("") : prefix + ".") + key + " = " + config.getRawString(key);
+			logger.information(msg);
+			//std::cout << msg << std::endl;
+		} else {
+			auto branch = prefix == "" ? key : prefix + "." + key;
+			AutoPtr<ConfigurationView> view( new ConfigurationView( key, &config) );
+			logConfig(branch, *view, logger);
+		}
+	}
+}
+
 TmplApp::TmplApp() : _helpRequested(false)
 {
+	_pMapConfig = new MapConfiguration;
+	auto & cnf = config();
+	const_cast<LayeredConfiguration&>(cnf).add( _pMapConfig, PRIO_DEFAULT, false, false);
+	setupLogger();
+}
+
+void TmplApp::setupLogger() {
+
+	poco_assert_msg(config().has("application.dataDir"), "update poco libs, make sure config before init");
+	
+	auto appDataDir = config().getString("application.dataDir");
+	auto appName = config().getString("application.baseName");
+
+	File appdir(appDataDir);
+	appdir.createDirectories();
+
+	AutoPtr<SplitterChannel> splitterChannel(new SplitterChannel());
+
+	//AutoPtr<Channel> consoleChannel(new ConsoleChannel());
+	//splitterChannel->addChannel(consoleChannel);
+	AutoPtr<FileChannel> rotatedFileChannel(new FileChannel(appDataDir + appName + ".log"));
+	rotatedFileChannel->setProperty("rotation", "100000");
+	rotatedFileChannel->setProperty("archive", "timestamp");
+	splitterChannel->addChannel(rotatedFileChannel);
+
+	AutoPtr<Formatter> formatter(new PatternFormatter("%Y-%m-%d %H:%M:%S.%i %s: %t"));
+	AutoPtr<Channel> formattingChannel(new FormattingChannel(formatter, splitterChannel));
+
+	Logger::setChannel("", formattingChannel);
+
+	logger().information("^^^^^^^^^^^^^^^^^^^^ start ^^^^^^^^^^^^^^^^^^^^^^^^");
+}
+
+void TmplApp::init(int argc, char* argv[]) {
+	logger().information("default application settings");
+	logConfig("", config(), this->logger());
+
+	Application::init(argc, argv);
+
+	logger().information("default application settings");
+	logConfig("", config(), this->logger());
+}
+
+#if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
+void TmplApp::init(int argc, wchar_t* argv[]) {
+	logger().information("application settings : default");
+	logConfig("", config(), this->logger());
+
+	Application::init(argc, argv);
+
+	logger().information("application settings with command line args");
+	logConfig("", config(), this->logger());
+}
+#endif
+
+void TmplApp::handleOption(const std::string& name, const std::string& value) {
+	_pMapConfig->setString(name, value);	
+	Application::handleOption(name, value);
 }
 
 void TmplApp::initialize(Application& self)
 {
+	logger().information("====================== initialize ==========================");
 	loadConfiguration(); // load default configuration files, if present
 	Application::initialize(self);
 	// add your own initialization code here
@@ -20,6 +104,8 @@ void TmplApp::uninitialize()
 {
 	// add your own uninitialization code here
 	Application::uninitialize();
+
+	logger().information("====================== end ==========================");
 }
 
 void TmplApp::reinitialize(Application& self)
