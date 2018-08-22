@@ -32,6 +32,7 @@ void logConfig(const std::string &prefix, AbstractConfiguration & config, Logger
 
 TmplApp::TmplApp() : _helpRequested(false)
 {
+	setUnixOptions(true);
 	_pMapConfig = new MapConfiguration;
 	auto & cnf = config();
 	const_cast<LayeredConfiguration&>(cnf).add( _pMapConfig, PRIO_DEFAULT, false, false);
@@ -53,7 +54,7 @@ void TmplApp::setupLogger() {
 	//AutoPtr<Channel> consoleChannel(new ConsoleChannel());
 	//splitterChannel->addChannel(consoleChannel);
 	AutoPtr<FileChannel> rotatedFileChannel(new FileChannel(appDataDir + appName + ".log"));
-	rotatedFileChannel->setProperty("rotation", "100000");
+	rotatedFileChannel->setProperty("rotation", "10M");
 	rotatedFileChannel->setProperty("archive", "timestamp");
 	splitterChannel->addChannel(rotatedFileChannel);
 
@@ -77,18 +78,17 @@ void TmplApp::init(int argc, char* argv[]) {
 
 #if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
 void TmplApp::init(int argc, wchar_t* argv[]) {
-	logger().information("application settings : default");
+	logger().information("==== application settings : default");
 	logConfig("", config(), this->logger());
 
 	Application::init(argc, argv);
 
-	logger().information("application settings with command line args");
+	logger().information("==== application settings with command line args");
 	logConfig("", config(), this->logger());
 }
 #endif
 
 void TmplApp::handleOption(const std::string& name, const std::string& value) {
-	_pMapConfig->setString(name, value);	
 	Application::handleOption(name, value);
 }
 
@@ -138,19 +138,17 @@ void TmplApp::defineOptions(OptionSet& options)
 		.argument("file")
 		.callback(OptionCallback<TmplApp>(this, &TmplApp::handleConfig)));
 
-	options.addOption(
-		Option("bind", "b", "bind option value to test.property")
-		.required(false)
-		.repeatable(false)
-		.argument("value")
-		.binding("test.property"));
+	logger().information("==== options");
+	for (auto & opt : options) {
+		logger().information(opt.fullName() + " : " + " "+ opt.argumentName() + " : " + opt.description());
+	}
 }
 
 void TmplApp::handleHelp(const std::string& name, const std::string& value)
 {
 	_helpRequested = true;
 	displayHelp();
-	stopOptionsProcessing();
+	//stopOptionsProcessing();
 }
 
 void TmplApp::handleDefine(const std::string& name, const std::string& value)
@@ -166,6 +164,7 @@ void TmplApp::handleConfig(const std::string& name, const std::string& value)
 void TmplApp::displayHelp()
 {
 	HelpFormatter helpFormatter(options());
+	helpFormatter.setUnixStyle(true);
 	helpFormatter.setCommand(commandName());
 	helpFormatter.setUsage("OPTIONS");
 	helpFormatter.setHeader("A sample application that demonstrates some of the features of the Poco::Util::Application class.");
@@ -183,7 +182,7 @@ void TmplApp::defineProperty(const std::string& def)
 		value.assign(def, pos + 1, def.length() - pos);
 	}
 	else name = def;
-	config().setString(name, value);
+	_pMapConfig->setString(name, value);
 }
 
 int TmplApp::main(const ArgVec& args)
@@ -204,6 +203,9 @@ int TmplApp::main(const ArgVec& args)
 		}
 		logger().information("Application properties:");
 		printProperties("");
+	}
+	else {
+		logger().information("Help print out to std::cout");
 	}
 	return Application::EXIT_OK;
 }
