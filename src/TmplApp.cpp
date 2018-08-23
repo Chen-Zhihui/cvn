@@ -2,6 +2,8 @@
 
 #include "TmplApp.h"
 #include <Poco/Util/ConfigurationView.h>
+#include <Poco/Util/JSONConfiguration.h>
+#include <Poco/Util/ConfigurationMapper.h>
 #include <Poco/FileChannel.h>
 #include <Poco/SplitterChannel.h>
 #include <Poco/ConsoleChannel.h>
@@ -11,24 +13,34 @@
 #include <Poco/Path.h>
 #include <Poco/File.h>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
+
+using json = nlohmann::json;
 using namespace Poco;
 using namespace Poco::Util;
 
-void logConfig(const std::string &prefix, AbstractConfiguration & config, Logger & logger) {
+void logConfig(const std::string &prefix, AbstractConfiguration & config, Logger & logger, int depth = 0) {
 	AbstractConfiguration::Keys keys;
 	config.keys(keys);
+	std::string space("\t");
+	std::string spaceN;
+	for (int i = 0; i < depth; i++) {
+		space += "\t";
+		spaceN += "\t";
+	}
+	logger.information(spaceN+ (prefix == "" ? "{" : prefix + ": {"));
 	for (auto & key : keys) {
 		if (config.has(key)) {
-			auto msg = (prefix == "" ? std::string("") : prefix + ".") + key + " = " + config.getRawString(key);
+			auto msg = space + key  + " : " + config.getRawString(key);
 			logger.information(msg);
 			//std::cout << msg << std::endl;
 		} else {
-			auto branch = prefix == "" ? key : prefix + "." + key;
 			AutoPtr<ConfigurationView> view( new ConfigurationView( key, &config) );
-			logConfig(branch, *view, logger);
+			logConfig(key, *view, logger, depth+1);
 		}
 	}
+	logger.information(spaceN+"}");
 }
 
 TmplApp::TmplApp() : _helpRequested(false)
@@ -37,6 +49,12 @@ TmplApp::TmplApp() : _helpRequested(false)
 	_pMapConfig = new MapConfiguration;
 	auto & cnf = config();
 	const_cast<LayeredConfiguration&>(cnf).add( _pMapConfig, PRIO_DEFAULT, false, false);
+
+	std::stringstream os;
+	dumpParamList(os);
+	_pJsonConfig = new JSONConfiguration(os);
+	auto mapper = new ConfigurationMapper("", "para", _pJsonConfig);
+	const_cast<LayeredConfiguration&>(cnf).add(mapper, PRIO_DEFAULT - 1, false, false);
 
 	setupLogger();
 }
@@ -133,11 +151,25 @@ void TmplApp::defineOptions(OptionSet& options)
 		.callback(OptionCallback<TmplApp>(this, &TmplApp::handleDefine)));
 
 	options.addOption(
+		Option("param", "P", "define a param in param list")
+		.required(false)
+		.repeatable(true)
+		.argument("name=value")
+		.callback(OptionCallback<TmplApp>(this, &TmplApp::handleParameter)));
+
+	options.addOption(
 		Option("config-file", "f", "load configuration data from a file")
 		.required(false)
 		.repeatable(true)
 		.argument("file")
 		.callback(OptionCallback<TmplApp>(this, &TmplApp::handleConfig)));
+
+	options.addOption(
+		Option("param-list", "l", "default parameter list as json")
+		.repeatable(false)
+		.required(false)
+		.callback(OptionCallback<TmplApp>(this, &TmplApp::handleParamList))
+	);
 
 	logger().information("==== options");
 	for (auto & opt : options) {
@@ -157,11 +189,20 @@ void TmplApp::handleDefine(const std::string& name, const std::string& value)
 	defineProperty(value);
 }
 
+void TmplApp::handleParameter(const std::string & name, const std::string & value) {
+	defineProperty(value, *_pJsonConfig);
+}
+
 void TmplApp::handleConfig(const std::string& name, const std::string& value)
 {
 	loadConfiguration(value);
 }
 
+void TmplApp::handleParamList(const std::string & name, const std::string & value) {
+
+	_helpRequested = true;
+	dumpParamList(std::cout);
+}
 void TmplApp::displayHelp()
 {
 	HelpFormatter helpFormatter(options());
@@ -174,6 +215,11 @@ void TmplApp::displayHelp()
 
 void TmplApp::defineProperty(const std::string& def)
 {
+	defineProperty(def, *_pMapConfig);
+}
+
+
+void TmplApp::defineProperty(const std::string & def, AbstractConfiguration & conf) {
 	std::string name;
 	std::string value;
 	std::string::size_type pos = def.find('=');
@@ -183,7 +229,7 @@ void TmplApp::defineProperty(const std::string& def)
 		value.assign(def, pos + 1, def.length() - pos);
 	}
 	else name = def;
-	_pMapConfig->setString(name, value);
+	conf.setString(name, value);
 }
 
 int TmplApp::main(const ArgVec& args)
@@ -203,10 +249,10 @@ int TmplApp::main(const ArgVec& args)
 			logger().information(*it);
 		}
 		logger().information("Application properties:");
-		printProperties("");
+		printConfig(config());
 	}
 	else {
-		logger().information("Help print out to std::cout");
+		logger().information("command line ok");
 	}
 	return Application::EXIT_OK;
 }
@@ -238,3 +284,17 @@ void TmplApp::printProperties(const std::string& base)
 	}
 }
 
+
+void TmplApp::printConfig(Poco::Util::AbstractConfiguration & conf) {
+	logConfig(std::string(), conf, logger());
+}
+
+void TmplApp::dumpParamList(std::ostream& ostr) const {
+	auto j2 = R"(
+					  {
+						"happy": true,
+						"pi": 3.141
+					  }
+					)"_json;
+	ostr << j2.dump(4) << std::endl;
+}

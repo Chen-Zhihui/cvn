@@ -7,6 +7,7 @@
 #include <Poco/Util/HelpFormatter.h>
 #include <Poco/Util/AbstractConfiguration.h>
 #include <Poco/Util/MapConfiguration.h>
+#include <Poco/Util/JSONConfiguration.h>
 #include <Poco/AutoPtr.h>
 #include <iostream>
 #include <sstream>
@@ -47,19 +48,28 @@ protected:
 
 	void handleDefine(const std::string & name, const std::string & value);
 
+	void handleParameter(const std::string & name, const std::string & value);
+
 	void handleConfig(const std::string & name, const std::string & value);
+
+	void handleParamList(const std::string & name, const std::string & value);
 
 	void displayHelp();
 
 	void defineProperty(const std::string & def);
+	void defineProperty(const std::string & def, AbstractConfiguration & conf);
 
 	int main(const Poco::Util::Application::ArgVec & args);
 
 	void printProperties(const std::string & base);
 
+	void printConfig(Poco::Util::AbstractConfiguration & conf);
+
 protected:
 
 	virtual void handleOption(const std::string& name, const std::string& value) override;
+
+	virtual void dumpParamList(std::ostream& ostr) const;
 
 private:
 
@@ -68,5 +78,6 @@ private:
 	bool _helpRequested = false;
 
 	Poco::Util::MapConfiguration * _pMapConfig = nullptr;
+	Poco::Util::JSONConfiguration * _pJsonConfig = nullptr;
 
 };
