@@ -8,6 +8,7 @@
 #include <Poco/PatternFormatter.h>
 #include <Poco/FormattingChannel.h>
 #include <Poco/Format.h>
+#include <Poco/Path.h>
 #include <Poco/File.h>
 #include <iostream>
 
@@ -36,24 +37,24 @@ TmplApp::TmplApp() : _helpRequested(false)
 	_pMapConfig = new MapConfiguration;
 	auto & cnf = config();
 	const_cast<LayeredConfiguration&>(cnf).add( _pMapConfig, PRIO_DEFAULT, false, false);
+
 	setupLogger();
 }
 
 void TmplApp::setupLogger() {
 
 	poco_assert_msg(config().has("application.dataDir"), "update poco libs, make sure config before init");
-	
-	auto appDataDir = config().getString("application.dataDir");
 	auto appName = config().getString("application.baseName");
 
-	File appdir(appDataDir);
-	appdir.createDirectories();
+	Path logfile(config().getString("system.currentDir"));
+	logfile.append(appName + ".log");
+	logfile.makeFile();
 
 	AutoPtr<SplitterChannel> splitterChannel(new SplitterChannel());
 
 	//AutoPtr<Channel> consoleChannel(new ConsoleChannel());
 	//splitterChannel->addChannel(consoleChannel);
-	AutoPtr<FileChannel> rotatedFileChannel(new FileChannel(appDataDir + appName + ".log"));
+	AutoPtr<FileChannel> rotatedFileChannel(new FileChannel(logfile.toString()));
 	rotatedFileChannel->setProperty("rotation", "10M");
 	rotatedFileChannel->setProperty("archive", "timestamp");
 	splitterChannel->addChannel(rotatedFileChannel);
