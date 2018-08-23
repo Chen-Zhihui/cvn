@@ -15,8 +15,8 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-namespace cvn {
-	namespace apputil {
+namespace Cvn {
+	namespace Apputil {
 
 	using json = nlohmann::json;
 	using namespace Poco;

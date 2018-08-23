@@ -1,10 +1,10 @@
 ﻿// cpptmpl.cpp : Defines the entry point for the application.
 //
 
-#include <apputil/TmplApp.h>
+#include <Apputil/TmplApp.h>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-using namespace cvn::apputil;
+using namespace Cvn::Apputil;
 
 class ExampleApp : public TmplApp {
 public:

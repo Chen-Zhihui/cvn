@@ -2,7 +2,7 @@
 
 # Add source to this project's executable.
 
-set(package_name apputil)
+set(package_name Apputil)
 
 add_library ( ${package_name} STATIC 
 TmplApp.cpp
@@ -16,7 +16,7 @@ target_link_libraries(${package_name} PUBLIC Poco::Util)
 
 # Install support
 
-install(TARGETS apputil EXPORT ${package_name}
+install(TARGETS Apputil EXPORT ${package_name}
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
@@ -47,7 +47,7 @@ write_basic_package_version_file(
 	  COMPATIBILITY AnyNewerVersion
 )
 
-configure_file("cmake/${package_name}Config.cmake.in"
+configure_file("cmake/${package_name}Config.in.cmake"
 	  "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}${package_name}Config.cmake"
 	  @ONLY
 )

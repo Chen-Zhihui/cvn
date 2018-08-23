@@ -1,3 +1,3 @@
 
 
-add_subdirectory(apputil)
+add_subdirectory(Apputil)

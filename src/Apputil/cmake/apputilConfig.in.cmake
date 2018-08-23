@@ -1,3 +1,3 @@
 include(CMakeFindDependencyMacro)
 find_dependency(PocoUtil)
-include("${CMAKE_CURRENT_LIST_DIR}/cvnapputilTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/CvnApputilTargets.cmake")

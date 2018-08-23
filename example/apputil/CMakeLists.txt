@@ -7,7 +7,7 @@ add_executable (exam_apputil
 cpptmpl.cpp 
 )
 
-target_link_libraries(exam_apputil PRIVATE apputil)
+target_link_libraries(exam_apputil PRIVATE Apputil)
 target_include_directories( exam_apputil
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>

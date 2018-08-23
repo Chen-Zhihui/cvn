@@ -12,8 +12,8 @@
 #include <iostream>
 #include <sstream>
 
-namespace cvn {
-	namespace apputil {
+namespace Cvn {
+	namespace Apputil {
 
 		using Poco::Util::Application;
 		using Poco::Util::Option;

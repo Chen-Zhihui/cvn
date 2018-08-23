@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("cvn")
+project ("Cvn")
 
 if(0)
     set(Poco_DI "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
@@ -75,7 +75,7 @@ write_basic_package_version_file(
   COMPATIBILITY AnyNewerVersion
 )
 
-configure_file(cmake/${PROJECT_NAME}Config.cmake.in 
+configure_file(cmake/${PROJECT_NAME}Config.in.cmake
 "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake" 
 @ONLY
 )
