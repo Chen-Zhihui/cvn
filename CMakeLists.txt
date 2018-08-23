@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("cpptmpl")
+project ("cvn")
 
 if(0)
     set(Poco_DI "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
@@ -14,6 +14,8 @@ endif()
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+
+set(config_package_location lib/cmake/${PROJECT_NAME})
 
 
 # Append our module directory to CMake
@@ -53,13 +55,40 @@ include_directories(${JSON_DIR})
 #catch
 include_directories(${Catch_DIR})
 
+#expected
+include_directories(${expected_DIR})
+
 # Include sub-projects.
 add_subdirectory (src)
 
+# example
+add_subdirectory(example)
 # test
 add_subdirectory(test)
 
 
+# install
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}ConfigVersion.cmake"
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
+configure_file(cmake/${PROJECT_NAME}Config.cmake.in 
+"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake" 
+@ONLY
+)
+
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION
+        ${config_package_location}
+    COMPONENT
+        Devel
+)
 
 message("\n\n")
 include(FeatureSummary)

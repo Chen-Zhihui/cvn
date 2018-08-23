@@ -6,8 +6,8 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "E:\\solarcpp-vcbuild\\cpptmpl\\build\\${name}",
-      "installRoot": "E:\\solarcpp-vcbuild\\cpptmpl\\install\\${name}",
+      "buildRoot":   "E:\\ws.cvn\\cmaketmpl.build\\${name}",
+      "installRoot": "E:\\ws.cvn\\cmaketmpl.install",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
@@ -31,6 +31,10 @@
         {
           "name": "OpenCV_DIR",
           "value": "E:\\ws.local\\opencv\\build"
+        },
+        {
+          "name": "expected_DIR",
+          "value": "E:\\ws.local\\buildtree\\expected-master"
         }
       ]
     },
@@ -39,8 +43,8 @@
       "generator": "Ninja",
       "configurationType": "Release",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "E:\\solarcpp-vcbuild\\cpptmpl\\build\\${name}",
-      "installRoot": "E:\\solarcpp-vcbuild\\cpptmpl\\install\\${name}",
+      "buildRoot": "E:\\ws.cvn\\cmaketmpl.build\\${name}",
+      "installRoot": "E:\\ws.cvn\\cmaketmpl.install",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
@@ -64,6 +68,10 @@
         {
           "name": "OpenCV_DIR",
           "value": "E:\\ws.local\\opencv\\build"
+        },
+        {
+          "name": "expected_DIR",
+          "value": "E:\\ws.local\\buildtree\\expected-master"
         }
       ]
     }

@@ -52,7 +52,7 @@ SCENARIO("json", "[all][operators]") {
 					{"value", 42.99}
 				  }}
 				};
-				std::cout << j2.dump(4) << std::endl;
+				//std::cout << j2.dump(4) << std::endl;
 
 			}
 
@@ -64,7 +64,7 @@ SCENARIO("json", "[all][operators]") {
 						"pi": 3.141
 					  }
 					)"_json;
-				std::cout << j2.dump(4) << std::endl;
+				//std::cout << j2.dump(4) << std::endl;
 			}
 
 		}
