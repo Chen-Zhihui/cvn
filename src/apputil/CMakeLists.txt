@@ -22,4 +22,4 @@ target_include_directories(${package_name}
 
 # Install support
 
-Cvn_INSTALL(${package_name})
+PACKAGE_INSTALL(${package_name})

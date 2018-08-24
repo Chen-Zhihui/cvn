@@ -9,7 +9,7 @@
 #      INPUT:
 #           target_name             the name of the target. e.g. Foundation for CvnFoundation
 #    Example: Cvn_INSTALL(Foundation)
-macro(Cvn_INSTALL target_name)
+macro(PACKAGE_INSTALL target_name)
 
 install(TARGETS ${package_name} EXPORT ${package_name}
   LIBRARY DESTINATION lib
@@ -18,8 +18,8 @@ install(TARGETS ${package_name} EXPORT ${package_name}
   INCLUDES DESTINATION include
 )
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/Cvn
-  DESTINATION include/
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+  DESTINATION include
   FILES_MATCHING PATTERN "*.h"
 )
 
