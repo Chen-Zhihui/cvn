@@ -2,18 +2,18 @@
 
 # Add source to this project's executable.
 
-set(package_name Apputil)
+set(package_name Cvutil)
 
 add_library ( ${package_name} STATIC 
-src/TmplApp.cpp
-include/${PROJECT_NAME}/${package_name}/TmplApp.h
+src/ImageCapture.cpp
+include/${PROJECT_NAME}/${package_name}/ImageCapture.h
 )
 
-target_link_libraries(${package_name} PUBLIC Poco::Util)
+target_link_libraries(${package_name} PUBLIC opencv_videoio)
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})
-
 target_include_directories(${package_name} 
+	PRIVATE ${OpenCV_INCLUDE_DIRS}
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 

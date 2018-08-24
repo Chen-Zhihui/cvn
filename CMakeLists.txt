@@ -21,6 +21,7 @@ set(config_package_location lib/cmake/${PROJECT_NAME})
 # Append our module directory to CMake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+include(CvnMacros)
 include(proj_version_file)
 proj_version_file(${PROJECT_SOURCE_DIR}/VERSION)
 
@@ -31,7 +32,7 @@ find_package(Poco 1.9.0 REQUIRED COMPONENTS Foundation Util Net Zip)
 
 #OpenCV
 set(OpenCV_FIND_QUIETLY OFF)
-find_package( OpenCV REQUIRED COMPONENTS core imgproc calib3d highgui objdetect OPTIONAL_COMPONENTS viz)
+find_package( OpenCV REQUIRED COMPONENTS core imgproc calib3d highgui objdetect videoio OPTIONAL_COMPONENTS viz)
 if(${OpenCV_FOUND})
 	MESSAGE("OpenCV information:") 
 	MESSAGE("  OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}") 
@@ -57,6 +58,9 @@ include_directories(${Catch_DIR})
 
 #expected
 include_directories(${expected_DIR})
+
+#fmt
+find_package(fmt REQUIRED)
 
 # Include sub-projects.
 add_subdirectory (src)

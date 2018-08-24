@@ -35,6 +35,10 @@
         {
           "name": "expected_DIR",
           "value": "E:\\ws.local\\buildtree\\expected-master"
+        },
+        {
+          "name": "fmt_DIR",
+          "value": "E:\\ws.local\\buildtree\\fmt-5.1.0.install\\lib\\cmake\\fmt"
         }
       ]
     },
@@ -72,6 +76,10 @@
         {
           "name": "expected_DIR",
           "value": "E:\\ws.local\\buildtree\\expected-master"
+        },
+        {
+          "name": "fmt_DIR",
+          "value": "E:\\ws.local\\buildtree\\fmt-5.1.0.install\\lib\\cmake\\fmt"
         }
       ]
     }
