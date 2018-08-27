@@ -24,8 +24,9 @@ class DetectorApp : public TmplApp {
 public:
 	virtual void dumpParamList(std::ostream& ostr) const {
 		json j2 = {
-		  {"in_dir", "E:\\testdata\\test-head-orig"},
-		  {"out_dir", "E:\\testdata\\test-head"},
+			{"in_dir", "E:\\testdata\\test-head-orig"},
+		{"out_dir", "E:\\testdata\\test-head"},
+		{"force_output", true},
 		{"prefix" , "image"}
 		};
 		ostr << j2.dump() << std::endl;
@@ -43,19 +44,23 @@ public:
 
 		Poco::File out(out_dir);
 		if (out.exists()) {
-			std::cerr << "out put directory already exists, failed" << std::endl;
-			logger().information("out put directory already exists, failed");
-			return -1;
+			if (configFile().getBool("force_output")) {
+				out.remove(true);
+			}
+			else {
+				std::cerr << "out put directory already exists, failed" << std::endl;
+				logger().information("out put directory already exists, failed");
+				return -1;
+			}
 		}
 		out.createDirectories();
 
 		Poco::File in(in_dir);
-		if (!in.exists()) {
+		if (!in.exists() || in.isFile()) {
 			std::cerr << "input dir doesnot exists" << std::endl;
 			logger().information("input dir donnot exists");
 			return  -1;
 		}
-		in.createDirectories();
 
 		std::vector<std::string> files;
 		in.list(files);

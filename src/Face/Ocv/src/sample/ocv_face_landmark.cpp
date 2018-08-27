@@ -15,10 +15,30 @@
 #include <memory>
 
 using namespace cv;
-using namespace face;
+using namespace cv::face;
 using namespace std;
 using json = nlohmann::json;
 using namespace Cvn::Apputil;
+
+
+
+bool myDetector(InputArray image, OutputArray faces, CascadeClassifier *face_cascade)
+{
+	Mat gray;
+
+	if (image.channels() > 1)
+		cvtColor(image, gray, COLOR_BGR2GRAY);
+	else
+		gray = image.getMat().clone();
+
+	equalizeHist(gray, gray);
+
+	std::vector<Rect> faces_;
+	face_cascade->detectMultiScale(gray, faces_, 1.4, 2, CASCADE_SCALE_IMAGE, Size(30, 30));
+	Mat(faces_).copyTo(faces);
+	return true;
+}
+
 
 class DetectorApp : public TmplApp {
 public:
@@ -26,10 +46,11 @@ public:
 		json j2 =
 		{
 		{"opencv_dir", "E:\\ws.cvn\\cvn.model\\opencv"},
-		{"in_dir", "E:\\testdata\\test-head"},
-		{"out_dir", "E:\\testdata\\test-head-out-detect"},
+		{"in_dir", "E:\\testdata\\test-head-onlyone"},
+		{"out_dir", "E:\\testdata\\test-head-out-landmark"},
 		{"force_output", true},
-		{"detector_model", "etc\\haarcascades\\haarcascade_frontalface_alt2.xml"}
+		{"detector_model", "etc\\haarcascades\\haarcascade_frontalface_alt2.xml"},
+		{"lbf_model", "E:\\ws.cvn\\GSOC2017\\data\\lbfmodel.yaml"}
 		};
 		ostr << j2.dump() << std::endl;
 	}
@@ -72,6 +93,19 @@ public:
 		std::vector<std::string> files;
 		in.list(files);
 
+		// Create an instance of Facemark
+		Ptr<Facemark> facemark = FacemarkLBF::create();
+		Poco::Path lbf_path(configFile().getString("lbf_model"));
+		Poco::File lbf_file(lbf_path);
+		if (!lbf_file.exists() || !lbf_file.isFile()) {
+			auto msg = fmt::format("lbf model Not found {}", lbf_path.toString());
+			logger().information(msg);
+			cerr << msg << endl; 
+			return -1;
+		}
+		// Load landmark detector
+		facemark->loadModel(lbf_path.toString());
+
 		int count = 0;
 		for (auto & in_file : files) {
 			Poco::Path file_path(in_dir);
@@ -90,14 +124,24 @@ public:
 			cv::face::getFaces(input, faces, cparams.get());
 			auto out = input.clone();
 			cvn::Face::Base::drawFaceRecs(out, faces, Scalar(0, 255, 0));
-			cv::imwrite(out_file.toString(), out);
 
 			auto msg = fmt::format("detected {:04d} faces in file {}", faces.size(), Poco::Path(in_dir).append(in_file).toString());
 			logger().information(msg);
 			std::cout << msg << endl;
-		}
 
-		//logger().information("para.answer.evertything=" + config().getRawString("para.list[1]"));
+			std::vector<std::vector<Point2f> > landmarks;
+			if( !faces.empty())
+				auto ret = facemark->fit(input, faces, landmarks);
+			if (!landmarks.empty() ) {
+				drawFacemarks(out, landmarks);
+			}
+			else {
+				auto msg = fmt::format("landmark faces failed in file {}", Poco::Path(in_dir).append(in_file).toString());
+			}
+
+			cv::imwrite(out_file.toString(), out);
+			count++;
+		}
 		return 0;
 	}
 };

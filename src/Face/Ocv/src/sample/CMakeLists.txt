@@ -36,3 +36,18 @@ target_include_directories( ocv_image_import
     )
 
 EXECUTABLE_INSTALL(ocv_image_import)
+
+
+###
+add_executable (ocv_face_landmark 
+ocv_face_landmark.cpp 
+)
+
+target_link_libraries(ocv_face_landmark 
+    PRIVATE Apputil FaceBase FaceOcv ${OpenCV_LIBRARIES}  fmt::fmt
+	)
+target_include_directories( ocv_face_landmark
+    PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
+    )
+
+EXECUTABLE_INSTALL(ocv_face_landmark)
