@@ -32,7 +32,7 @@ find_package(Poco 1.9.0 REQUIRED COMPONENTS Foundation Util Net Zip)
 
 #OpenCV
 set(OpenCV_FIND_QUIETLY OFF)
-find_package( OpenCV REQUIRED COMPONENTS core imgproc calib3d highgui objdetect videoio OPTIONAL_COMPONENTS viz)
+find_package( OpenCV REQUIRED COMPONENTS core imgproc calib3d highgui objdetect videoio face OPTIONAL_COMPONENTS viz)
 if(${OpenCV_FOUND})
 	MESSAGE("OpenCV information:") 
 	MESSAGE("  OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}") 

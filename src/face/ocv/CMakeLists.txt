@@ -26,3 +26,5 @@ target_include_directories(${package_name}
 # Install support
 
 PACKAGE_INSTALL(${package_name})
+
+add_subdirectory(src/sample)

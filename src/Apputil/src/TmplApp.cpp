@@ -84,7 +84,9 @@ namespace Cvn {
 
 		Logger::setChannel("", formattingChannel);
 
-		logger().information("^^^^^^^^^^^^^^^^^^^^ start ^^^^^^^^^^^^^^^^^^^^^^^^");
+		for (int i = 0; i < 10; i++)
+			logger().information("###################################################");
+		    logger().information("^^^^^^^^^^^^^^^^^^^^ start ^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
 
 	void TmplApp::init(int argc, char* argv[]) {

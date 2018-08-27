@@ -51,3 +51,13 @@ install(
 )
 
 endmacro()
+
+
+macro(EXECUTABLE_INSTALL target_name)
+install(TARGETS ${target_name} EXPORT ${target_name}
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+)    
+endmacro(EXECUTABLE_INSTALL target_name)
