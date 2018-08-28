@@ -45,12 +45,12 @@ public:
 	virtual void dumpParamList(std::ostream& ostr) const {
 		json j2 =
 		{
-		{"opencv_dir", "E:\\ws.cvn\\cvn.model\\opencv"},
-		{"in_dir", "E:\\testdata\\test-head-onlyone"},
+		{"opencv_dir", "E:\\ws.model\\opencv"},
+		{"in_dir", "E:\\testdata\\test-head"},
 		{"out_dir", "E:\\testdata\\test-head-out-landmark"},
 		{"force_output", true},
 		{"detector_model", "etc\\haarcascades\\haarcascade_frontalface_alt2.xml"},
-		{"lbf_model", "E:\\ws.cvn\\GSOC2017\\data\\lbfmodel.yaml"}
+		{"lbf_model", "E:\\ws.model\\GSOC2017\\data\\lbfmodel.yaml"}
 		};
 		ostr << j2.dump() << std::endl;
 	}
@@ -133,7 +133,10 @@ public:
 			if( !faces.empty())
 				auto ret = facemark->fit(input, faces, landmarks);
 			if (!landmarks.empty() ) {
-				drawFacemarks(out, landmarks);
+				for (int j = 0; j < landmarks.size(); j++) {
+					cvn::Face::Base::drawFacemark(out, landmarks[j], Scalar(0, 0, 255));
+				}
+				//drawFacemarks(out, landmarks);
 			}
 			else {
 				auto msg = fmt::format("landmark faces failed in file {}", Poco::Path(in_dir).append(in_file).toString());

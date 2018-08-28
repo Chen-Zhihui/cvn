@@ -15,6 +15,18 @@ namespace cvn
 					cv::rectangle(image, faces[j], color, 2);
 				}
 			}
+
+			void drawFaceRec(cv::InputOutputArray image, const cv::Rect & face, cv::Scalar color) {
+				cv::rectangle(image, face, color, 2);
+			}
+
+			void drawFacemark(cv::InputOutputArray image, const cv::InputArray points, const cv::Scalar color) {
+				cv::Mat img = image.getMat();
+				std::vector<cv::Point2f> pts = points.getMat();
+				for (size_t i = 0; i < pts.size(); i++) {
+					cv::circle(img, pts[i], 3, color, -1);
+				}
+			}
 		}
 	}
 }

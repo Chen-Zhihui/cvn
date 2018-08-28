@@ -25,7 +25,7 @@ public:
 	virtual void dumpParamList(std::ostream& ostr) const {
 		json j2 =
 		{
-		{"opencv_dir", "E:\\ws.cvn\\cvn.model\\opencv"},
+		{"opencv_dir", "E:\\ws.model\\opencv"},
 		{"in_dir", "E:\\testdata\\test-head"},
 		{"out_dir", "E:\\testdata\\test-head-out-detect"},
 		{"force_output", true},

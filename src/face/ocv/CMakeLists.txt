@@ -12,7 +12,7 @@ include/${PROJECT_NAME}/Face/Ocv/Detector.h
 include/${PROJECT_NAME}/Face/Ocv/Tracker.h
 )
 
-target_link_libraries(${package_name} PUBLIC opencv_videoio)
+target_link_libraries(${package_name} PUBLIC opencv_videoio opencv_face)
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})
 target_include_directories(${package_name} 
