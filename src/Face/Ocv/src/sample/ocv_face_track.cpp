@@ -197,7 +197,7 @@ public:
 				logger().information(msg);
 				cout << msg << endl;
 
-				mtOk = multiTracker->update(frame);
+				mtOk = true; // multiTracker->update(frame);
 
 				cvn::Face::Base::drawFaceRecs(frame, faces, Scalar(0, 255, 0));
 
@@ -213,12 +213,12 @@ public:
 
 			{
 				if (frameCount % 25 == 0) {
-					auto msg = "frame {} passed, face count={}, detect index = {}, track index = {}"_format(frameCount, faces.size(), detectCount, trackCount);
+					auto msg = "frame id={}, face count={}, detect index={}, track index={}"_format(frameCount, faces.size(), detectCount, trackCount);
 					logger().information(msg);
 					cout << msg << endl;
 
 					double dur = ((double)getTickCount() - start) / getTickFrequency();
-					auto msg = "frame rate by track = {} frame/sec"_format(frameCount / dur);
+					msg = "frame rate by track = {} frame/sec"_format(frameCount / dur);
 					logger().information(msg);
 					cout << msg << endl;
 				}
