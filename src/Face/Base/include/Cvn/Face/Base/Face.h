@@ -16,6 +16,12 @@ namespace cvn
 				}
 			}
 
+			void drawFaceRecs(cv::InputOutputArray image, const std::vector<cv::Rect2d> & faces, cv::Scalar color) {
+				for (int j = 0; j < faces.size(); j++) {
+					cv::rectangle(image, faces[j], color, 2);
+				}
+			}
+
 			void drawFaceRec(cv::InputOutputArray image, const cv::Rect & face, cv::Scalar color) {
 				cv::rectangle(image, face, color, 2);
 			}
