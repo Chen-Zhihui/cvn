@@ -87,9 +87,9 @@ public:
 		//{"in_file", "E:\\testdata\\clip.mp4"},
 		//{"out_file", "E:\\testdata\\clip-ocvmtcnn-cv.mp4"},
 		{"in_file", "E:\\testdata\\yongzheng-01-03.mp4"},
-		{"out_file", "E:\\testdata\\yongzheng-01-03-ocvmtcnn-cv.mp4"},
+		{"out_file", "E:\\testdata\\yongzheng-01-03-ocvmtcnn-cv-1.mp4"},
 		{"force_output", true},
-		{"skip", 8}
+		{"skip", 3}
 		};
 		ostr << j2.dump() << std::endl;
 	}
