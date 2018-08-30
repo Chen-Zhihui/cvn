@@ -47,6 +47,22 @@ foreach(file ${OpenCV_LIBS})
     #install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 endforeach()
 
+set(OpenBLAS_DIR "E:/ws.local/OpenBLAS")
+set(OpenBLAS_FOUND TRUE)
+set(OpenBLAS_INCLUDE_DIR ${OpenBLAS_DIR}/include)
+set(OpenBLAS_LIBRARY_DIR ${OpenBLAS_DIR}/lib/x64)
+set(OpenBLAS_DLL_DIR     ${OpenBLAS_DIR}/bin/x64)
+set(OpenBLAS_LIB ${OpenBLAS_LIBRARY_DIR}/libopenblas.dll.a)
+set(OpenBLAS_dlls 	${OpenBLAS_DLL_DIR}/libgcc_s_seh-1.dll  
+					${OpenBLAS_DLL_DIR}/libgfortran-3.dll  
+					${OpenBLAS_DLL_DIR}/libopenblas.dll  
+					${OpenBLAS_DLL_DIR}/libquadmath-0.dll
+                    )                    
+foreach(file ${OpenBLAS_dlls})
+    file(COPY ${file} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+endforeach()
+
 #cereal
 include_directories(${Cereal_DIR})
 

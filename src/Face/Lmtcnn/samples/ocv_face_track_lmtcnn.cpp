@@ -16,6 +16,7 @@
 #include <fmt/core.h>
 #include <fmt/printf.h>
 #include <memory>
+#include <Cvn/Face/Lmtcnn/mtcnn.h>
 
 using namespace cv;
 using namespace cv::face;
@@ -65,9 +66,10 @@ public:
 		{
 		{"opencv_dir", "E:\\ws.model\\opencv"},
 		{"in_file", "E:\\testdata\\yongzheng-01-10.mp4"},
-		{"out_file", "E:\\testdata\\yongzheng-01_track.mp4"},
+		{"out_file", "E:\\testdata\\yongzheng-01_track-mtcnn.mp4"},
 		{"force_output", true},
 		{"detector_model", "etc\\haarcascades\\haarcascade_frontalface_alt2.xml"},
+		{"lmtcnn_dir", "E:\\ws.model\\Lmtcnn"},
 		{"lbf_model", "E:\\ws.model\\GSOC2017\\data\\lbfmodel.yaml"},
 		{"tracker", "KCF"},
 		{"skip", 6}
@@ -79,6 +81,8 @@ public:
 
 	cv::CascadeClassifier face_cascade;
 
+	std::shared_ptr<mtcnn> mtcnn_detector;
+
 	int main(const Poco::Util::Application::ArgVec & args) {
 		printConfig(this->configFile());
 
@@ -86,6 +90,11 @@ public:
 		Poco::Path face_cascade_model_path(configFile().getString("opencv_dir"));
 		face_cascade_model_path.append(configFile().getString("detector_model"));
 		cparams.reset(new cv::face::CParams(face_cascade_model_path.toString()));
+
+		Poco::Path lmtcnn_model_path(configFile().getString("lmtcnn_dir"));
+		Poco::Path lmtcnn_pnet_model_path(lmtcnn_model_path); lmtcnn_pnet_model_path.append("Pnet.txt");
+	    Poco::Path lmtcnn_onet_model_path(lmtcnn_model_path); lmtcnn_onet_model_path.append("Onet.txt");
+	    Poco::Path lmtcnn_rnet_model_path(lmtcnn_model_path); lmtcnn_rnet_model_path.append("Rnet.txt");
 
 		if(0) {
 		// Create an instance of Facemark
@@ -141,6 +150,13 @@ public:
 			return -1;
 		}
 
+		
+		int width = frame.cols;
+		int height = frame.rows;
+		mtcnn_detector.reset(new mtcnn(height, width, lmtcnn_pnet_model_path.toString(), 
+			lmtcnn_rnet_model_path.toString(), lmtcnn_onet_model_path.toString()));
+
+
 		//tracking 
 		// Specify the tracker type
 		string trackerType = configFile().getString("tracker", "KCF");
@@ -186,8 +202,17 @@ public:
 				
 				if(!mtOk) {
 					// detect
-					faces.clear();
-					cv::face::getFaces(frame, faces, cparams.get());
+					faces.clear();					
+					//cv::face::getFaces(frame, faces, cparams.get());
+					auto thirdBbox_ = mtcnn_detector->findFace(frame);
+					for (vector<struct Bbox>::iterator it = thirdBbox_.begin(); it != thirdBbox_.end(); it++) {
+						if ((*it).exist) {
+							rectangle(frame, Point((*it).y1 , (*it).x1), Point((*it).y2, (*it).x2), Scalar(0, 0, 255), 2, 8, 0);
+							//for (int num = 0; num < 5; num++)circle(fmat, Point((int)*(it->ppoint + num), (int)*(it->ppoint + num + 5)), 3, Scalar(0, 255, 255), -1);
+						    faces.push_back(cv::Rect(it->x1, it->y1, it->x2-it->x1, it->y2-it->y1));
+						}
+					}
+
 					auto msg_face = "face detected with count = {}"_format(faces.size());
 					logger().information(msg_face);
 					cout << msg_face << endl;
