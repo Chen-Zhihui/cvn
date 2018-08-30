@@ -37,3 +37,17 @@ target_include_directories( ocv_face_track_ocvmtcnn
 
 EXECUTABLE_INSTALL(ocv_face_track_ocvmtcnn)
 
+###
+add_executable (ocv_face_track_ocvmtcnn_cv
+ocv_face_track_ocvmtcnn_cv.cpp 
+)
+
+target_link_libraries(ocv_face_track_ocvmtcnn_cv 
+    PRIVATE Apputil FaceBase FaceOcv Ocvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
+	)
+target_include_directories( ocv_face_track_ocvmtcnn_cv
+    PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
+    )
+
+EXECUTABLE_INSTALL(ocv_face_track_ocvmtcnn_cv)
+

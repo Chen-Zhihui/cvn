@@ -219,13 +219,9 @@ public:
 			writer << frame;
 
 			{
-				if (frameCount % 25 == 0) {
-					auto msg = "frame id={}, face count={}, detect index={}, track index={}"_format(frameCount, faces.size(), detectCount, trackCount);
-					logger().information(msg);
-					cout << msg << endl;
-
+				if (frameCount % 25 == 0) {					
 					double dur = ((double)getTickCount() - start) / getTickFrequency();
-					msg = "frame rate by track = {} frame/sec"_format(frameCount / dur);
+					auto msg = "frame id={}, face count={}, detect index={}, track index={}, frame rate = {}"_format(frameCount, faces.size(), detectCount, trackCount, frameCount / dur);
 					logger().information(msg);
 					cout << msg << endl;
 				}

@@ -16,6 +16,7 @@
 #include <fmt/core.h>
 #include <fmt/printf.h>
 #include <memory>
+#include <algorithm>
 #include <Cvn/Face/Ocvmtcnn/detector.h>
 
 using namespace cv;
@@ -80,20 +81,28 @@ public:
 		json j2 =
 		{
 		{"opencv_dir", "E:\\ws.model\\opencv"},
-		{"ocvmtcnn_dir", "E:\\ws.model\\opencv-mtcnn"},
-		{"in_file", "E:\\testdata\\yongzheng-01-03.mp4"},
-		{"out_file", "E:\\testdata\\yongzheng-01-03-ocvmtcnn.mp4"},
-		{"force_output", true},
 		{"detector_model", "etc\\haarcascades\\haarcascade_frontalface_alt2.xml"},
-		{"lbf_model", "E:\\ws.model\\GSOC2017\\data\\lbfmodel.yaml"},
+		{"ocvmtcnn_dir", "E:\\ws.model\\opencv-mtcnn"},
 		{"tracker", "KCF"},
+		//{"in_file", "E:\\testdata\\clip.mp4"},
+		//{"out_file", "E:\\testdata\\clip-ocvmtcnn-cv.mp4"},
+		{"in_file", "E:\\testdata\\yongzheng-01-03.mp4"},
+		{"out_file", "E:\\testdata\\yongzheng-01-03-ocvmtcnn-cv.mp4"},
+		{"force_output", true},
 		{"skip", 8}
 		};
 		ostr << j2.dump() << std::endl;
 	}
 
+	std::shared_ptr<cv::face::CParams> cparams;
+
 	int main(const Poco::Util::Application::ArgVec & args) {
 		printConfig(this->configFile());
+
+		//detector
+		Poco::Path face_cascade_model_path(configFile().getString("opencv_dir"));
+		face_cascade_model_path.append(configFile().getString("detector_model"));
+		cparams.reset(new cv::face::CParams(face_cascade_model_path.toString()));
 
 		//detector
 		Poco::Path lmtcnn_model_path(configFile().getString("ocvmtcnn_dir"));
@@ -200,28 +209,38 @@ public:
 				
 				if(!mtOk) {
 					// detect
-					faces.clear();					
-					
-					auto faces_mtcnn = detector.detect(frame, 20.f, 0.709f);
+					faces.clear();		
 
-			
-			        //std::cout << "Number of faces found in the supplied image - " << faces_mtcnn.size() << std::endl;
+					auto casRec = faces;
+					cv::face::getFaces(frame, casRec, cparams.get());	
 
-			        std::vector<rectPoints> data;
+					for(auto & r : casRec) {
+						cv::Rect rr(r);
+						int det = rr.width * 0.5;
+						rr.x = std::max(0, rr.x - det);
+						rr.y = std::max(0, rr.y - det);
+						rr.width = std::min( rr.width * 2, frame.cols-rr.x);
+						rr.height = std::min(rr.height* 2, frame.rows-rr.y);
 
-			  		// show the image with faces in it
-			  		for (size_t i = 0; i < faces_mtcnn.size(); ++i) {
-						std::vector<cv::Point> pts;
-						for (int p = 0; p < NUM_PTS; ++p) {
-				  			pts.push_back(
-					  		cv::Point(faces_mtcnn[i].ptsCoords[2 * p], faces_mtcnn[i].ptsCoords[2 * p + 1]));
+						cv::Mat fMat(frame, rr);
+
+						auto faces_mtcnn = detector.detect(fMat.clone(), 20.f, 0.709f);
+			        	std::vector<rectPoints> data;
+						// show the image with faces in it
+						for (size_t i = 0; i < faces_mtcnn.size(); ++i) {
+							std::vector<cv::Point> pts;
+							for (int p = 0; p < NUM_PTS; ++p) {
+								pts.push_back(
+								cv::Point(faces_mtcnn[i].ptsCoords[2 * p], faces_mtcnn[i].ptsCoords[2 * p + 1]));
+							}
+
+							auto rect = faces_mtcnn[i].bbox.getRect();
+							auto d = std::make_pair(rect, pts);
+							data.push_back(d);
+
+							faces.push_back(cv::Rect(rect.tl()+rr.tl(), cv::Size(rect.width, rect.height)));
 						}
-
-						auto rect = faces_mtcnn[i].bbox.getRect();
-						auto d = std::make_pair(rect, pts);
-						data.push_back(d);
-						faces.push_back(rect);
-			  		}
+					}
 
 			  		//auto resultImg = drawRectsAndPoints(frame, data);
 

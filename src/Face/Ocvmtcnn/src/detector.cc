@@ -21,8 +21,9 @@ std::vector<Face> MTCNNDetector::detect(const cv::Mat &img,
   if (rgbImg.empty()) {
     return std::vector<Face>();
   }
-  rgbImg.convertTo(rgbImg, CV_32FC3);
-  rgbImg = rgbImg.t();
+  cv::Mat temp;
+  rgbImg.convertTo(temp, CV_32F, 1.0, 0.0);
+  rgbImg = temp.t();
 
   // Run Proposal Network to find the initial set of faces
   std::vector<Face> faces = _pnet->run(rgbImg, minFaceSize, scaleFactor);

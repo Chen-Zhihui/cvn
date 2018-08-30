@@ -19,6 +19,9 @@ RefineNetwork::~RefineNetwork() {}
 
 std::vector<Face> RefineNetwork::run(const cv::Mat &img,
                                      const std::vector<Face> &faces) {
+	if (faces.empty())
+		return std::vector<Face>();
+
   cv::Size windowSize = cv::Size(INPUT_DATA_WIDTH, INPUT_DATA_HEIGHT);
 
   std::vector<cv::Mat> inputs;
