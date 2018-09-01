@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("Cvn")
 
+set(CMAKE_CXX_STANDARD 14)
+
 if(0)
     set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")

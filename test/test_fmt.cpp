@@ -1,5 +1,5 @@
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 #include <fmt/format.h>
 #include <fmt/core.h>

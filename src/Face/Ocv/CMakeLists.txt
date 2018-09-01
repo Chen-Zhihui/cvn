@@ -27,4 +27,4 @@ target_include_directories(${package_name}
 
 PACKAGE_INSTALL(${package_name})
 
-add_subdirectory(src/sample)
+add_subdirectory(sample)

@@ -8,7 +8,6 @@ dir: png, jpg, bmp, etc
 */
 
 #include <Cvn/Cvutil/ImageCapture.h>
-#include "..\include\Cvn\Cvutil\ImageCapture.h"
 
 namespace Cvn {
 	namespace Cvutil {

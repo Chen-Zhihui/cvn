@@ -1,5 +1,5 @@
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <vector>
 
 TEST_CASE("vectors can be sized and resized", "[vector]") {
