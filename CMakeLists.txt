@@ -6,10 +6,20 @@ cmake_minimum_required (VERSION 3.8)
 project ("Cvn")
 
 if(0)
-    set(Poco_DI "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
+    set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
     set(Cereal_DIR "E:\\ws.local\\buildtree\\cereal-1.2.2\\include")
     set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
+endif()
+
+set(LIBS_DIR "/home/tony/ws.local/ep.install")
+
+if(1)
+set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
+set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
+set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
+set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
+set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
 endif()
 
 
@@ -47,6 +57,7 @@ foreach(file ${OpenCV_LIBS})
     #install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 endforeach()
 
+if(0)
 set(OpenBLAS_DIR "E:/ws.local/OpenBLAS")
 set(OpenBLAS_FOUND TRUE)
 set(OpenBLAS_INCLUDE_DIR ${OpenBLAS_DIR}/include)
@@ -62,18 +73,13 @@ foreach(file ${OpenBLAS_dlls})
     file(COPY ${file} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
     install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 endforeach()
-
-#cereal
-include_directories(${Cereal_DIR})
+endif()
 
 #json
-include_directories(${JSON_DIR})
+find_package(nlohmann_json REQUIRED)
 
 #catch
-include_directories(${Catch_DIR})
-
-#expected
-include_directories(${expected_DIR})
+find_package(Catch2 REQUIRED)
 
 #fmt
 find_package(fmt REQUIRED)
