@@ -14,9 +14,8 @@ if(0)
     set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
 endif()
 
+if(0)
 set(LIBS_DIR "/home/tony/ws.local/ep.install")
-
-if(1)
 set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
 set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
 set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
@@ -86,6 +85,15 @@ find_package(Catch2 REQUIRED)
 #fmt
 find_package(fmt REQUIRED)
 
+#protobuf
+find_package(Protobuf CONFIG QUIET)
+if (NOT Protobuf_FOUND)
+  find_package(Protobuf MODULE QUIET)
+endif()
+    message(STATUS "    Protobuf compiler   : ${PROTOBUF_PROTOC_EXECUTABLE}")
+    message(STATUS "    Protobuf includes   : ${PROTOBUF_INCLUDE_DIRS}")
+    message(STATUS "    Protobuf libraries  : ${PROTOBUF_LIBRARIES}")
+
 # Include sub-projects.
 add_subdirectory (src)
 
@@ -93,6 +101,7 @@ add_subdirectory (src)
 add_subdirectory(example)
 # test
 add_subdirectory(test)
+
 
 
 # install
