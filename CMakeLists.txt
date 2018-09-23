@@ -14,13 +14,14 @@ if(0)
     set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
 endif()
 
-if(0)
-set(LIBS_DIR "/home/tony/ws.local/ep.install")
+if(1)
+set(LIBS_DIR /media/tony/data/ep.install)
 set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
 set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
 set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
 set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
 set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
+set(Caffe_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
 endif()
 
 
@@ -93,6 +94,9 @@ endif()
     message(STATUS "    Protobuf compiler   : ${PROTOBUF_PROTOC_EXECUTABLE}")
     message(STATUS "    Protobuf includes   : ${PROTOBUF_INCLUDE_DIRS}")
     message(STATUS "    Protobuf libraries  : ${PROTOBUF_LIBRARIES}")
+
+find_package(Boost REQUIRED COMPONENTS filesystem)
+
 
 # Include sub-projects.
 add_subdirectory (src)

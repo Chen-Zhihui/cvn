@@ -5,12 +5,17 @@
 
 set(package_name FaceBase)
 
-add_library ( ${package_name} STATIC 
-src/Face.cpp
-include/${PROJECT_NAME}/Face/Base/Face.h
-)
+add_library ( ${package_name} STATIC
+		src/Face.cpp
+		include/${PROJECT_NAME}/Face/Base/Face.h
 
-target_link_libraries(${package_name} PUBLIC opencv_videoio)
+		include/${PROJECT_NAME}/Face/Base/FaceLandmarks.h
+		src/FaceLandmarks.cpp
+
+		include/${PROJECT_NAME}/Face/Base/Align.h
+		)
+
+target_link_libraries(${package_name} PUBLIC opencv_videoio Poco::Foundation)
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})
 target_include_directories(${package_name} 
