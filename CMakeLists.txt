@@ -7,6 +7,8 @@ project ("Cvn")
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(CMAKE_DEBUG_POSTFIX d)
+
 if(0)
     set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
@@ -21,7 +23,7 @@ set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
 set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
 set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
 set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
-set(Caffe_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
+set(Caffe2_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
 endif()
 
 
@@ -85,6 +87,8 @@ find_package(Catch2 REQUIRED)
 
 #fmt
 find_package(fmt REQUIRED)
+
+find_package(Caffe2 REQUIRED)
 
 #protobuf
 find_package(Protobuf CONFIG QUIET)

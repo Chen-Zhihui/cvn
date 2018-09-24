@@ -2,7 +2,7 @@
 
 
 
-set(package_name Ocvmtcnn)
+set(package_name FaceOcvmtcnn)
 
 add_library ( ${package_name} STATIC 
 src/detector.cc
