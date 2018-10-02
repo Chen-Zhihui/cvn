@@ -8,20 +8,24 @@
 
 using json = nlohmann::json;
 
-
 class CPredictor {
     public:
-      json config =
+      const json sample_json =
           {
-              {"dir", "E:\\testdata\\test-head-out-detect"},
-              {"name", "sphereface_20"},
-              {"input", {"data"}},
-              {"output", {"fc5"}}};
+              {"dir", "/home/tony/data/ws.cv.face.model/caffe2/sphereface/"},
+              {"predict_net", "sphereface_20_predict_net.pb"},
+              {"init_net",      "sphereface_20_init_net.pb"},
+              {"input_names", {"data"}},
+              {"output_names", {"fc5"}}};
 
-      virtual bool load(const std::string & jsonstr) ;
+      bool load(const std::string & jsonstr) ;
+
+      bool operator()(const caffe2::Predictor::TensorMap & input,
+                      caffe2::Predictor::TensorMap * outputs);
 
     protected: 
 
-    caffe2::NetDef _initNet, _predictNet;
+    json config_loaded;
+    caffe2::NetDef _initnet, _prednet;
     std::shared_ptr<caffe2::Predictor> _predictor;
 };

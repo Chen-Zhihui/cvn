@@ -57,14 +57,15 @@ namespace Cvn {
 		_pJsonConfig = new JSONConfiguration();
 		auto mapper = new ConfigurationMapper("", "para", _pJsonConfig);
 		const_cast<LayeredConfiguration&>(cnf).add(mapper, PRIO_DEFAULT - 1, false, false);
-
-		setupLogger();
 	}
 
 	void TmplApp::setupLogger() {
 
 		poco_assert_msg(config().has("application.dataDir"), "update poco libs, make sure config before init");
 		auto appName = config().getString("application.baseName");
+		if(appName.empty()) {
+
+		}
 
 		Path logfile(config().getString("system.currentDir"));
 		logfile.append(appName + ".log");
@@ -90,13 +91,13 @@ namespace Cvn {
 	}
 
 	void TmplApp::init(int argc, char* argv[]) {
-		logger().information("default application settings");
 		std::stringstream os;
 		dumpParamList(os);
 		_pJsonConfig->load(os);
-		logConfig("", config(), this->logger());
 
 		Application::init(argc, argv);
+
+		setupLogger();
 
 		logger().information("default application settings");
 		logConfig("", config(), this->logger());
@@ -104,14 +105,14 @@ namespace Cvn {
 
 #if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
 	void TmplApp::init(int argc, wchar_t* argv[]) {
-		logger().information("==== application settings : default");
 		std::stringstream os;
 		dumpParamList(os);
 		_pJsonConfig->load(os);
-		logConfig("", config(), this->logger());
 
 		Application::init(argc, argv);
 
+		setupLogger();
+		
 		logger().information("==== application settings with command line args");
 		logConfig("", config(), this->logger());
 	}

@@ -15,7 +15,7 @@ ocv_face_detector_ocvmtcnn.cpp
 )
 
 target_link_libraries(ocv_face_detector_ocvmtcnn 
-    PRIVATE Apputil FaceBase FaceOcv Ocvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
+    PRIVATE Apputil FaceBase FaceOcv FaceOcvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
 	)
 target_include_directories( ocv_face_detector_ocvmtcnn
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
@@ -29,7 +29,7 @@ ocv_face_track_ocvmtcnn.cpp
 )
 
 target_link_libraries(ocv_face_track_ocvmtcnn 
-    PRIVATE Apputil FaceBase FaceOcv Ocvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
+    PRIVATE Apputil FaceBase FaceOcv FaceOcvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
 	)
 target_include_directories( ocv_face_track_ocvmtcnn
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
@@ -43,7 +43,7 @@ ocv_face_track_ocvmtcnn_cv.cpp
 )
 
 target_link_libraries(ocv_face_track_ocvmtcnn_cv 
-    PRIVATE Apputil FaceBase FaceOcv Ocvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
+    PRIVATE Apputil FaceBase FaceOcv FaceOcvmtcnn ${OpenCV_LIBRARIES}  fmt::fmt
 	)
 target_include_directories( ocv_face_track_ocvmtcnn_cv
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
