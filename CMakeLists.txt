@@ -9,22 +9,29 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_DEBUG_POSTFIX d)
 
-if(0)
-    set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
-    set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
-    set(Cereal_DIR "E:\\ws.local\\buildtree\\cereal-1.2.2\\include")
-    set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
-endif()
+option(USE_Qt5 "use qt gui" ON)
+option(USE_Caffe2 "caffe2 libs" OFF)
+option(USE_CvFace "use opencv::face" ON)
 
-if(1)
-set(LIBS_DIR /media/tony/data/ep.install)
-set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
-set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
-set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
-set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
-set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
-set(Caffe2_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
-endif()
+
+# if(0)
+#     set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
+#     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
+#     set(Cereal_DIR "E:\\ws.local\\buildtree\\cereal-1.2.2\\include")
+#     set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
+# endif()
+
+# if(1)
+# set(LIBS_DIR /media/tony/data/ep.install)
+# set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
+# set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
+# set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
+# set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
+# set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
+# set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
+# set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
+# set(Caffe2_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
+# endif()
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
@@ -37,16 +44,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(CvnMacros)
 include(proj_version_file)
+
 proj_version_file(${PROJECT_SOURCE_DIR}/VERSION)
 
 message(STATUS VERSION=${PROJECT_VERSION})
 
 #Poco
-find_package(Poco 1.9.0 REQUIRED COMPONENTS Foundation Util Net Zip)
+find_package(Poco REQUIRED COMPONENTS Foundation Util Net Zip)
 
 #OpenCV
 set(OpenCV_FIND_QUIETLY OFF)
-find_package( OpenCV REQUIRED COMPONENTS core imgproc calib3d highgui objdetect videoio face tracking OPTIONAL_COMPONENTS viz)
+#find_package( OpenCV COMPONENTS core imgproc calib3d highgui objdetect videoio face tracking OPTIONAL_COMPONENTS viz)
+find_package(OpenCV)
 if(${OpenCV_FOUND})
 	MESSAGE("OpenCV information:") 
 	MESSAGE("  OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}") 
@@ -88,7 +97,12 @@ find_package(Catch2 REQUIRED)
 #fmt
 find_package(fmt REQUIRED)
 
+if(USE_Caffe2)
 find_package(Caffe2 REQUIRED)
+endif()
+
+#
+find_package(Async++ REQUIRED)
 
 #protobuf
 find_package(Protobuf CONFIG QUIET)
@@ -101,7 +115,9 @@ endif()
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
-
+if(USE_Qt5)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
+endif()
 # Include sub-projects.
 add_subdirectory (src)
 

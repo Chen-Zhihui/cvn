@@ -3,7 +3,16 @@
 
   "environments": [
     {
-      "PATH": "${env.PATH};E:\\ws.local\\buildtree\\opencv.install\\x64\\vc14\\bin"
+      "PATH": "${env.PATH};${env.EP_DIR}/bin;${env.Qt5_DIR}/../../bin"
+    },
+    {
+      "EP_DIR": "E:/ws.local/ep.install/"
+    },
+    {
+      "Qt5_DIR": "C:/Qt/Qt5.11.0/5.11.0/msvc2017_64/lib/cmake/Qt5"
+    },
+    {
+      "Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
     }
   ],
   "configurations": [
@@ -20,31 +29,43 @@
       "variables": [
         {
           "name": "Poco_DIR",
-          "value": "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco"
+          "value": "${env.EP_DIR}/lib/cmake/Poco"
         },
         {
-          "name": "JSON_DIR",
-          "value": "E:\\ws.local\\buildtree\\json-3.2.0\\single_include"
+          "name": "nlohmann_json_DIR",
+          "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
         },
         {
           "name": "Cereal_DIR",
-          "value": "E:\\ws.local\\buildtree\\cereal-1.2.2\\include"
+          "value": "${env.EP_DIR}/share/cmake/cereal"
         },
         {
-          "name": "Catch_DIR",
-          "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
+          "name": "Catch2_DIR",
+          "value": "${env.EP_DIR}/lib/cmake/Catch2"
         },
         {
           "name": "OpenCV_DIR",
-          "value": "E:\\ws.local\\buildtree\\opencv.install"
-        },
-        {
-          "name": "expected_DIR",
-          "value": "E:\\ws.local\\buildtree\\expected-master"
+          "value": "${env.EP_DIR}"
         },
         {
           "name": "fmt_DIR",
-          "value": "E:\\ws.local\\buildtree\\fmt-5.1.0.install\\lib\\cmake\\fmt"
+          "value": "${env.EP_DIR}/lib/cmake/fmt/"
+        },
+        {
+          "name": "Qt5_DIR",
+          "value": "${env.Qt5_DIR}"
+        },
+        {
+          "name": "Async++_DIR",
+          "value": "${env.EP_DIR}/cmake/"
+        },
+        {
+          "name": "Caffe2_DIR",
+          "value": "${env.Caffe2_DIR}"
+        },
+        {
+          "name": "BOOST_ROOT",
+          "value": "E:\\ws.local\\boost_1_68_0_b1_rc2"
         }
       ]
     },
@@ -61,31 +82,43 @@
       "variables": [
         {
           "name": "Poco_DIR",
-          "value": "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco"
+          "value": "${env.EP_DIR}/lib/cmake/Poco"
         },
         {
-          "name": "JSON_DIR",
-          "value": "E:\\ws.local\\buildtree\\json-3.2.0\\single_include"
+          "name": "nlohmann_json_DIR",
+          "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
         },
         {
           "name": "Cereal_DIR",
-          "value": "E:\\ws.local\\buildtree\\cereal-1.2.2\\include"
+          "value": "${env.EP_DIR}/share/cmake/cereal"
         },
         {
           "name": "Catch_DIR",
-          "value": "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include"
+          "value": "${env.EP_DIR}/lib/cmake/Catch2"
         },
         {
           "name": "OpenCV_DIR",
-          "value": "E:\\ws.local\\buildtree\\opencv.install"
-        },
-        {
-          "name": "expected_DIR",
-          "value": "E:\\ws.local\\buildtree\\expected-master"
+          "value": "${env.EP_DIR}"
         },
         {
           "name": "fmt_DIR",
-          "value": "E:\\ws.local\\buildtree\\fmt-5.1.0.install\\lib\\cmake\\fmt"
+          "value": "${env.EP_DIR}/lib/cmake/fmt/"
+        },
+        {
+          "name": "Qt5_DIR",
+          "value": "${env.Qt5_DIR}"
+        },
+        {
+          "name": "Async++_DIR",
+          "value": "${env.EP_DIR}/cmake/"
+        },
+        {
+          "name": "Caffe2_DIR",
+          "value": "${env.Caffe2_DIR}"
+        },
+        {
+          "name": "BOOST_ROOT",
+          "value": "E:\\ws.local\\boost_1_68_0_b1_rc2"
         }
       ]
     }

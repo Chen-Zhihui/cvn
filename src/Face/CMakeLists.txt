@@ -1,4 +1,8 @@
 add_subdirectory(Base)
+if(USE_CvFace)
 add_subdirectory(Ocv)
+endif()
 add_subdirectory(Ocvmtcnn)
+if(USE_Caffe2)
 add_subdirectory(Caffe2)
+endif()
