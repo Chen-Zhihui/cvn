@@ -4,6 +4,8 @@
 
 set(package_name Apputil)
 
+QT5_ADD_RESOURCES(RECS ./src/qdarkstyle/style.qrc)
+
 add_library ( ${package_name} STATIC 
 src/TmplApp.cpp
 src/AppWidget.cpp
@@ -13,9 +15,11 @@ include/${PROJECT_NAME}/${package_name}/TmplApp.h
 src/AppWidget.h
 include/${PROJECT_NAME}/${package_name}/QtApplication.h
 include/${PROJECT_NAME}/${package_name}/QtScheduler.h
+${RECS}
 )
 
 target_link_libraries(${package_name} PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++)
+
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})
 

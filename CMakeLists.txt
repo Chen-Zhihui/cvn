@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_DEBUG_POSTFIX d)
 
 option(USE_Qt5 "use qt gui" ON)
-option(USE_Caffe2 "caffe2 libs" OFF)
+option(USE_Caffe2 "caffe2 libs" ON)
 option(USE_CvFace "use opencv::face" ON)
 
 

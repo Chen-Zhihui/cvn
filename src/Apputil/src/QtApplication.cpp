@@ -7,7 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <Cvn/Apputil/QtScheduler.h>
-
+#include <QFile>
+#include <QTextStream>
 #include "AppWidget.h"
 
 namespace Cvn
@@ -29,7 +30,17 @@ void QtApplication::initialize(Application& self)
     loadConfiguration();
     _app.reset(new QApplication(_argc, _argv));
     QtScheduler::instance();
-
+	QFile f(":/qdarkstyle/style.qss");
+	if (!f.exists())
+	{
+		printf("Unable to set stylesheet, file not found\n");
+	}
+	else
+	{
+		f.open(QFile::ReadOnly | QFile::Text);
+		QTextStream ts(&f);
+		qApp->setStyleSheet(ts.readAll());
+	}
 
     loadConfiguration(); // load default configuration files, if present
     Application::initialize(self);
