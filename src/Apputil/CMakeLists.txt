@@ -18,7 +18,8 @@ include/${PROJECT_NAME}/${package_name}/QtScheduler.h
 ${RECS}
 )
 
-target_link_libraries(${package_name} PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++)
+target_link_libraries(${package_name} 
+    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++)
 
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})
@@ -26,6 +27,7 @@ set_target_properties(${package_name} PROPERTIES
 target_include_directories(${package_name} 
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
 
 # TODO: Add tests and install targets if needed.
 

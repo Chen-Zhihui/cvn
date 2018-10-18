@@ -4,13 +4,9 @@ set(dep_ins
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Apputil/include>
 )
 
-
-
-#QT5_ADD_RESOURCES(RECS ../src/qdarkstyle/style.qrc)
-
 ###
 add_executable (cvn_qt_app
-cvn_qt_app.cpp  ${RECS}
+cvn_qt_app.cpp  
 )
 
 if(MSVC)

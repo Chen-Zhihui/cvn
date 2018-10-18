@@ -13,6 +13,8 @@ option(USE_Qt5 "use qt gui" ON)
 option(USE_Caffe2 "caffe2 libs" ON)
 option(USE_CvFace "use opencv::face" ON)
 
+set(eproot ${CMAKE_SOURCE_DIR}/3rdparty)
+
 
 # if(0)
 #     set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
@@ -118,6 +120,9 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(USE_Qt5)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 endif()
+
+add_subdirectory(3rdparty)
+
 # Include sub-projects.
 add_subdirectory (src)
 
