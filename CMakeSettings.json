@@ -13,6 +13,10 @@
     },
     {
       "Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
+    },
+    {
+      "VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"
+      //"VCPKG" : "E:\\ws\\vcpkg"
     }
   ],
   "configurations": [
@@ -66,6 +70,10 @@
         {
           "name": "BOOST_ROOT",
           "value": "E:\\ws.local\\boost_1_68_0_b1_rc2"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "${env.VCPKG}/scripts/buildsystems/vcpkg.cmake"
         }
       ]
     },
@@ -119,6 +127,10 @@
         {
           "name": "BOOST_ROOT",
           "value": "E:\\ws.local\\boost_1_68_0_b1_rc2"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "${env.VCPKG}/scripts/buildsystems/vcpkg.cmake"
         }
       ]
     }

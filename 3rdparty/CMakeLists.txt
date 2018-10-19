@@ -1,4 +1,5 @@
 
+include(QDarkStyleSheet.cmake)
 include(QtAwesome.cmake)
 include(qt-material-widgets.cmake)
 

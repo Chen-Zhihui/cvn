@@ -118,7 +118,7 @@ endif()
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
 if(USE_Qt5)
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets)
 endif()
 
 add_subdirectory(3rdparty)

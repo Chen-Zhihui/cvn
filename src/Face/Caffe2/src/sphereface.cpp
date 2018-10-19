@@ -20,7 +20,7 @@ void set_input_buffer(std::vector<cv::Mat>& input_channels,
 {
 	for (int i = 0; i < 3; ++i) {
 		cv::Mat channel(height, width, CV_32FC1, input_data);
-		input_channels.push_back(channels);
+		input_channels.push_back(channel);
 		input_data += width * height;
 	}
 }

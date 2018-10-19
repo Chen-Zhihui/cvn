@@ -3,12 +3,12 @@
 #
 
 # Add source to this project's executable.
-add_executable (exam_apputil 
+add_executable (demo_apputil 
 cpptmpl.cpp 
 )
 
-target_link_libraries(exam_apputil PRIVATE Apputil)
-target_include_directories( exam_apputil
+target_link_libraries(demo_apputil PRIVATE Apputil)
+target_include_directories( demo_apputil
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Apputil/include>

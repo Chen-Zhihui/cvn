@@ -31,6 +31,8 @@ class QtApplication : public Poco::Util::Application
 
     void init(int argc, char *argv[]);
 
+	void setupMainWidget(QWidget * w);
+
   protected:
     void initialize(Application &self) override;
 
@@ -58,7 +60,8 @@ class QtApplication : public Poco::Util::Application
 
     void printProperties(const std::string &base);
 
-  private:
+protected:
+
     bool _helpRequested = false;
     int _argc;
     char **_argv;

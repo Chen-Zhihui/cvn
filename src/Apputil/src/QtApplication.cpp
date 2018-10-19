@@ -156,6 +156,14 @@ void QtApplication::printProperties(const std::string& base)
     }
 }
 
+void QtApplication::setupMainWidget(QWidget * w) {
+	poco_assert(w);
+	poco_assert(_main);
+	auto c = _main->centralWidget();
+	_main->setCentralWidget(w);
+	delete c;
+}
+
 void QtApplication::setupMainUi() {
     _main = std::make_shared<QMainWindow>();
     _main->resize(800, 600);
