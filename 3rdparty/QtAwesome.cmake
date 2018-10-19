@@ -1,19 +1,19 @@
 
 
-set(qtawe_src
+set(qtawesome_src
 	${eproot}/QtAwesome/QtAwesome/QtAwesome.cpp
 	${eproot}/QtAwesome/QtAwesome/QtAwesomeAnim.cpp
 )
 
-QT5_ADD_RESOURCES(qtawe_res ${eproot}/QtAwesome/QtAwesome/QtAwesome.qrc)
+QT5_ADD_RESOURCES(qtawesome_res ${eproot}/QtAwesome/QtAwesome/QtAwesome.qrc)
 
-set(qtawe_hdr
+set(qtawesome_hdr
 	${eproot}/QtAwesome/QtAwesome/QtAwesome.h
 	${eproot}/QtAwesome/QtAwesome/QtAwesomeAnim.h
 )
 
-QT5_WRAP_CPP(qtawe_hdr_moc ${qtawe_hdr})
+QT5_WRAP_CPP(qtawe_hdr_moc ${qtawesome_hdr})
 
-add_library( qtawesome SHARED ${qtaew_src} ${qtawe_res} ${qtawe_hdr_moc})
-target_link_libraries(qtawesome PUBLIC Qt5::Core Qt5::Gui)
+add_library( qtawesome STATIC ${qtawesome_src} ${qtawesome_res} ${qtawesome_hdr_moc})
+target_link_libraries(qtawesome PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets)
 target_include_directories(qtawesome PUBLIC ${eproot}/QtAwesome/QtAwesome/)
