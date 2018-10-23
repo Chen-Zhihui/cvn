@@ -190,6 +190,7 @@ namespace Cvn {
                     return move(findSimilarity(src_mat, dst_mat));
                 default:
                     poco_assert(false && "Unsupport type in cp2tform: " );
+					return trans;
             }
         }
 

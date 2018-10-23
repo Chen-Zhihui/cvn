@@ -15,8 +15,8 @@
       "Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
     },
     {
-      "VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"
-      //"VCPKG" : "E:\\ws\\vcpkg"
+      //"VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"
+      "VCPKG" : "E:\\ws\\vcpkg"
     }
   ],
   "configurations": [
@@ -38,10 +38,6 @@
         {
           "name": "nlohmann_json_DIR",
           "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
-        },
-        {
-          "name": "Cereal_DIR",
-          "value": "${env.EP_DIR}/share/cmake/cereal"
         },
         {
           "name": "Catch2_DIR",
@@ -95,10 +91,6 @@
         {
           "name": "nlohmann_json_DIR",
           "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
-        },
-        {
-          "name": "Cereal_DIR",
-          "value": "${env.EP_DIR}/share/cmake/cereal"
         },
         {
           "name": "Catch_DIR",
