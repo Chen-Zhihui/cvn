@@ -21,7 +21,6 @@ include/${PROJECT_NAME}/${package_name}/QtScheduler.h
 ${qplayer_hdr_moc} ${qplayer_src}
 )
 
-find_package(libopenshot)
 
 target_link_libraries(${package_name} 
     PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++

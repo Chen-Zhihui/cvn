@@ -121,6 +121,10 @@ if(USE_Qt5)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets)
 endif()
 
+find_package(libopenshot)
+
+find_package(nmslib COMPONENTS nmslib)
+
 add_subdirectory(3rdparty)
 
 # Include sub-projects.
