@@ -13,11 +13,13 @@ set(dep_ins
 add_library ( ${package_name} STATIC 
 src/mtcnn.cpp 
 src/sphereface.cpp
+src/extract.cpp
 include/${PROJECT_NAME}/Face/Caffe2/mtcnn.h
 include/${PROJECT_NAME}/Face/Caffe2/sphereface.h
+include/${PROJECT_NAME}/Face/Caffe2/extract.h
 )
 
-target_link_libraries(${package_name} PUBLIC opencv_core Caffe2util Poco::Util nmslib::nmslib)
+target_link_libraries(${package_name} PUBLIC opencv_core Caffe2util Poco::Util nmslib::nmslib sqlite3)
 
 target_include_directories( ${package_name}
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}

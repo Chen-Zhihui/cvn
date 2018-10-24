@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("Cvn")
 
 set(CMAKE_CXX_STANDARD 14)
-
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_DEBUG_POSTFIX d)
 
 option(USE_Qt5 "use qt gui" ON)
@@ -14,27 +14,6 @@ option(USE_Caffe2 "caffe2 libs" ON)
 option(USE_CvFace "use opencv::face" ON)
 
 set(eproot ${CMAKE_SOURCE_DIR}/3rdparty)
-
-
-# if(0)
-#     set(Poco_DIR "E:\\ws.local\\buildtree\\poco-poco-1.9.0-release.install\\lib\\cmake\\Poco")
-#     set(JSON_DIR "E:\\ws.local\\buildtree\\json\\nlohmann")
-#     set(Cereal_DIR "E:\\ws.local\\buildtree\\cereal-1.2.2\\include")
-#     set(Catch_DIR "E:\\ws.local\\buildtree\\Catch2-2.2.3\\single_include")
-# endif()
-
-# if(1)
-# set(LIBS_DIR /media/tony/data/ep.install)
-# set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
-# set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
-# set(Catch2_DIR ${LIBS_DIR}/lib/cmake/Catch2)
-# set(Poco_DIR ${LIBS_DIR}/lib/cmake/Poco)
-# set(fmt_DIR ${LIBS_DIR}/lib/cmake/fmt)
-# set(nlohmann_json_DIR ${LIBS_DIR}/lib/cmake/nlohmann_json)
-# set(OpenCV_DIR ${LIBS_DIR}/share/OpenCV)
-# set(Caffe2_DIR /home/tony/data/ep.install.caffe2.local/share/cmake/Caffe2)
-# endif()
-
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
@@ -102,6 +81,10 @@ find_package(fmt REQUIRED)
 if(USE_Caffe2)
 find_package(Caffe2 REQUIRED)
 endif()
+
+#sqlite_orm
+find_package(sqlite3 CONFIG REQUIRED)
+find_package(sqlite-orm REQUIRED)
 
 #
 find_package(Async++ REQUIRED)
