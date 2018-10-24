@@ -33,7 +33,7 @@ class DetectorApp : public TmplApp
 		{ {"extractor" , {
 			 {"input_dir", "E:\\testdata_inuse\\webfaces-imgs"},
 			 {"output_dir", "E:\\ws.cvn"},
-			 {"dsfile", "webfaces.ds"},
+			 {"dsfile", "webfaces.txt"},
 			 {"dbfile", "webfaces.sqlite"},
 			 {"maxFolder", 10},
 			 {"maxImg", 10}},

@@ -28,7 +28,7 @@ public:
 
 		static decltype(auto) make_table(void) {
 			return sqlite_orm::make_table<ImgRec>("imgrec",
-				sqlite_orm::make_column("id", &ImgRec::id, sqlite_orm::primary_key()),
+				sqlite_orm::make_column("id", &ImgRec::id), //, sqlite_orm::primary_key()),
 				sqlite_orm::make_column("label", &ImgRec::label),
 				sqlite_orm::make_column("file_index_inFolder", &ImgRec::file_index_inFolder),
 				sqlite_orm::make_column("path", &ImgRec::path));
@@ -42,7 +42,7 @@ public:
 
 		static decltype(auto) make_table(void) {
 			return sqlite_orm::make_table<LabelRec>("labelrec",
-				sqlite_orm::make_column("label", &LabelRec::label, sqlite_orm::primary_key()),
+				sqlite_orm::make_column("label", &LabelRec::label), //, sqlite_orm::primary_key()),
 				sqlite_orm::make_column("path", &LabelRec::path));
 		}
 	};
@@ -54,7 +54,7 @@ public:
 
 	inputdir
 	*/
-	bool extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile) const;
+	bool extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile, bool mkdb=false) const;
 
 	bool extract(const std::string & inputdir, std::vector<ImgRec> & idxLog, std::vector<LabelRec> & labels, similarity::ObjectVector & dataset) const;
 
