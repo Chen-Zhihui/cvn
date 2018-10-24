@@ -70,7 +70,7 @@ endforeach()
 endif()
 
 #json
-find_package(nlohmann_json REQUIRED)
+find_package(nlohmann-json REQUIRED)
 
 #catch
 find_package(Catch2 REQUIRED)
@@ -78,8 +78,13 @@ find_package(Catch2 REQUIRED)
 #fmt
 find_package(fmt REQUIRED)
 
+#Qt
+if(USE_Qt5)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets)
+endif()
+
 if(USE_Caffe2)
-find_package(Caffe2 REQUIRED)
+#find_package(Caffe2 REQUIRED)
 endif()
 
 #sqlite_orm
@@ -99,10 +104,6 @@ endif()
     message(STATUS "    Protobuf libraries  : ${PROTOBUF_LIBRARIES}")
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
-
-if(USE_Qt5)
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets)
-endif()
 
 find_package(libopenshot)
 
