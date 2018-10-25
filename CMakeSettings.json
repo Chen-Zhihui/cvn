@@ -12,6 +12,9 @@
       "Qt5_DIR": "C:/Qt/Qt5.11.0/5.11.0/msvc2017_64/lib/cmake/Qt5"
     },
     {
+      "OpenCV_DIR" : "E:/ws.local/ep.install.opencv/"
+    },
+    {
       "Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
     },
     {
@@ -32,32 +35,12 @@
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "Poco_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/Poco"
-        },
-        {
-          "name": "nlohmann_json_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
-        },
-        {
-          "name": "Catch2_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/Catch2"
-        },
-        {
           "name": "OpenCV_DIR",
-          "value": "${env.EP_DIR}"
-        },
-        {
-          "name": "fmt_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/fmt/"
+          "value": "${env.OpenCV_DIR}"
         },
         {
           "name": "Qt5_DIR",
           "value": "${env.Qt5_DIR}"
-        },
-        {
-          "name": "Async++_DIR",
-          "value": "${env.EP_DIR}/cmake/"
         },
         {
           "name": "Caffe2_DIR",
@@ -85,32 +68,12 @@
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "Poco_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/Poco"
-        },
-        {
-          "name": "nlohmann_json_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/nlohmann_json"
-        },
-        {
-          "name": "Catch_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/Catch2"
-        },
-        {
           "name": "OpenCV_DIR",
-          "value": "${env.EP_DIR}"
-        },
-        {
-          "name": "fmt_DIR",
-          "value": "${env.EP_DIR}/lib/cmake/fmt/"
+          "value": "${env.OpenCV_DIR}"
         },
         {
           "name": "Qt5_DIR",
           "value": "${env.Qt5_DIR}"
-        },
-        {
-          "name": "Async++_DIR",
-          "value": "${env.EP_DIR}/cmake/"
         },
         {
           "name": "Caffe2_DIR",
