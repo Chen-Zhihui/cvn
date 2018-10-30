@@ -1,5 +1,6 @@
 #pragma once
 
+#include <caffe2/core/logging.h>
 #include <caffe2/core/init.h>
 #include <caffe2/predictor/predictor.h>
 #include <memory>

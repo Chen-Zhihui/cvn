@@ -5,7 +5,6 @@
 walk throught img dir, extract feature, and save to nmslib object
 */
 
-#include <nmslib/object.h>
 #include <functional>
 #include <vector>
 #include <string>
@@ -15,7 +14,7 @@ class Extracter {
 public:
 	typedef std::function< std::vector<float>(const std::string &)> feature_fun;
 
-	typedef std::function< similarity::Object * (const std::string &, int32_t, int32_t) > obj_fun;
+	//typedef std::function< similarity::Object * (const std::string &, int32_t, int32_t) > obj_fun;
 
 	Extracter(feature_fun feature, size_t maxobjs = 0, size_t maxImgPerObj = 0);
 
@@ -56,7 +55,7 @@ public:
 	*/
 	bool extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile, bool mkdb=false) const;
 
-	bool extract(const std::string & inputdir, std::vector<ImgRec> & idxLog, std::vector<LabelRec> & labels, similarity::ObjectVector & dataset) const;
+	//bool extract(const std::string & inputdir, std::vector<ImgRec> & idxLog, std::vector<LabelRec> & labels, similarity::ObjectVector & dataset) const;
 
 private:
 

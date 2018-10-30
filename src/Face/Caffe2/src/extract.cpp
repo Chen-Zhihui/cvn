@@ -1,4 +1,6 @@
 ﻿
+
+#include <nmslib/object.h>
 #include <Cvn/Face/Caffe2/extract.h>
 #include <nmslib/space.h>
 #include <Poco/Path.h>

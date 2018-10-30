@@ -2,6 +2,7 @@
 // cpptmpl.cpp : Defines the entry point for the application.
 //
 
+#include <caffe2/core/logging.h>
 #include <Poco/File.h>
 #include <Poco/Path.h>
 #include <Poco/Util/ConfigurationView.h>

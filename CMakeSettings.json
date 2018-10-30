@@ -15,7 +15,8 @@
       "OpenCV_DIR" : "E:/ws.local/ep.install.opencv/"
     },
     {
-      "Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
+      //"Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
+      "Caffe2_DIR": "E:\\ws.dl\\pytorch.install.v1.0rc.noproto\\share\\cmake\\Caffe2"
     },
     {
       //"VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"
