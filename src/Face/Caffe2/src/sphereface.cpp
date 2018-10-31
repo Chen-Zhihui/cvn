@@ -5,8 +5,7 @@
 #include <opencv/cv.hpp>
 
 SperefaceFeature::SperefaceFeature(){
-    caffe2::TensorCPU input;
-    input.Resize(std::vector<int>({bs, nc, input_height, input_width96}));
+    caffe2::TensorCPU input(std::vector<int>({bs, nc, input_height, input_width96}), caffe2::DeviceType::CPU);
     input_vec["data"] = input;
 }
 

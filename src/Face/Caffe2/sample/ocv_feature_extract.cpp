@@ -36,8 +36,8 @@ class DetectorApp : public TmplApp
 			 {"output_dir", "E:\\ws.cvn"},
 			 {"dsfile", "webfaces.txt"},
 			 {"dbfile", "webfaces.sqlite"},
-			 {"maxFolder", 10},
-			 {"maxImg", 10}},
+			 {"maxFolder", 10000},
+			 {"maxImg", 100}},
 			 },
 		{"facemodel" , {
 				 {"dir", "E:\\ws_face.model\\caffe2\\sphereface"},
@@ -95,7 +95,7 @@ class DetectorApp : public TmplApp
 
 		Extracter extracter(feature, maxFolder, maxImg);
 
-		auto ret = extracter.extract(in_dir.toString(), dbFile.toString(), dsFile.toString());
+		auto ret = extracter.extract(in_dir.toString(), dbFile.toString(), dsFile.toString(), true);
 
 		logger().information("extract feature ok");
 

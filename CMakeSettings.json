@@ -3,10 +3,7 @@
 
   "environments": [
     {
-      "PATH": "${env.PATH};${env.EP_DIR}/bin;${env.Qt5_DIR}/../../bin"
-    },
-    {
-      "EP_DIR": "E:/ws.local/ep.install/"
+      "PATH": "${env.PATH};${env.Qt5_DIR}/../../bin"
     },
     {
       "Qt5_DIR": "C:/Qt/Qt5.11.0/5.11.0/msvc2017_64/lib/cmake/Qt5"
@@ -16,7 +13,8 @@
     },
     {
       //"Caffe2_DIR": "E:\\ws.local\\caffe2.install.with.master.VS2017\\share\\cmake\\Caffe2"
-      "Caffe2_DIR": "E:\\ws.dl\\pytorch.install.v1.0rc.noproto\\share\\cmake\\Caffe2"
+      //"Caffe2_DIR": "E:\\ws.dl\\pytorch.install.v1.0rc.noproto\\share\\cmake\\Caffe2"
+      "Caffe2_DIR": "E:\\ws.local\\ep.install.caffe2\\share\\cmake\\Caffe2"
     },
     {
       //"VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"

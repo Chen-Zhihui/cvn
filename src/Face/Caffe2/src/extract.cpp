@@ -8,6 +8,7 @@
 #include "Poco/DirectoryIterator.h"
 #include <nmslib/space/space_vector.h>
 #include <nmslib/space/space_vector_gen.h>
+#include <space/space_word_embed.h>
 #include <fmt/format.h>
 
 using namespace similarity;
@@ -29,7 +30,7 @@ struct DistL2 {
 };
 
 bool Extracter::extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile, bool mkdb) const {
-	similarity::VectorSpaceGen<float, DistL2> space;
+	similarity::WordEmbedSpace<float> space(similarity::kEmbedDistL2);
 	similarity::ObjectVector ov;
 
 	Poco::File dsFile(dateSetFile);
@@ -69,8 +70,8 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 			similarity::Object obj(id, label, sizeof(float)*feat.size(), &feat[0]);
 			space.WriteNextObj(obj, fmt::format("{0}", label), *output);
 			if( mkdb ) {
-			ImgRec rec{id, label, files, fileIt.path().toString()};
-			storage.insert(rec);
+				ImgRec rec{ id, label, files, std::vector<char>(obj.data(), obj.data()+obj.datalength()), fileIt.path().toString() };
+				storage.insert(rec);
 			}
 			id++;
 			files++;

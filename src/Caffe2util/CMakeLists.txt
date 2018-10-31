@@ -9,7 +9,7 @@ add_library ( ${package_name} STATIC
 		include/${PROJECT_NAME}/${package_name}/CPredictor.h
 		)
 
-target_link_libraries(${package_name} PUBLIC caffe2 glog::glog )
+target_link_libraries(${package_name} PUBLIC caffe2 )
 
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})

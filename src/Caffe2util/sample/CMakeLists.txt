@@ -11,7 +11,7 @@ ocv_caffe2_predictor.cpp
 )
 
 target_link_libraries(ocv_caffe2_predictor 
-    PRIVATE Apputil Caffe2util ${OpenCV_LIBRARIES}  fmt::fmt glog::glog
+    PRIVATE Apputil Caffe2util ${OpenCV_LIBRARIES}  fmt::fmt 
 	)
 target_include_directories( ocv_caffe2_predictor
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
