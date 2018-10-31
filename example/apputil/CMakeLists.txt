@@ -7,7 +7,7 @@ add_executable (demo_apputil
 cpptmpl.cpp 
 )
 
-target_link_libraries(demo_apputil PRIVATE Apputil)
+target_link_libraries(demo_apputil PRIVATE Apputil ZLIB::ZLIB)
 target_include_directories( demo_apputil
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>

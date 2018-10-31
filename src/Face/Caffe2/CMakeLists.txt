@@ -19,7 +19,8 @@ include/${PROJECT_NAME}/Face/Caffe2/sphereface.h
 include/${PROJECT_NAME}/Face/Caffe2/extract.h
 )
 
-target_link_libraries(${package_name} PUBLIC opencv_core Caffe2util Poco::Util nmslib::nmslib sqlite3 fmt::fmt )
+target_link_libraries(${package_name} 
+PUBLIC opencv_core Caffe2util Poco::Util nmslib::nmslib sqlite3 fmt::fmt  ZLIB::ZLIB)
 
 target_include_directories( ${package_name}
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
