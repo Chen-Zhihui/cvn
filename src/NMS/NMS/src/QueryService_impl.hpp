@@ -152,7 +152,7 @@ class QueryServiceHandler : virtual public QueryServiceIf {
     } catch (const exception& e) {
         throw e;
     } catch (...) {
-        std::exception e("unknown");
+        std::exception e;
         throw e;
     }
   }
@@ -237,7 +237,7 @@ class QueryServiceHandler : virtual public QueryServiceIf {
     } catch (const exception& e) {
         throw e;
     } catch (...) {
-        std::exception e("unknown");
+        std::exception e;
         throw e;
     } 
   }
@@ -267,7 +267,7 @@ class QueryServiceHandler : virtual public QueryServiceIf {
     } catch (const exception& e) {
         throw e;
     } catch (...) {
-        std::exception e("unknown");
+        std::exception e;
         throw e;
     }
   }
@@ -351,7 +351,7 @@ class QueryServiceHandler : virtual public QueryServiceIf {
     } catch (const exception& e) {
         throw e;
     } catch (...) {
-        std::exception e("unknown");
+        std::exception e;
         throw e;
     }
 

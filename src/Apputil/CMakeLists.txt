@@ -23,7 +23,7 @@ ${qplayer_hdr_moc} ${qplayer_src}
 
 
 target_link_libraries(${package_name} 
-    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++ ZLIB::ZLIB
+    PUBLIC Poco::Util Poco::Zip Qt5::Core Qt5::Gui Qt5::Widgets Async++ 
 	PRIVATE openshot  
 )
 

@@ -31,7 +31,7 @@ find_package(fmt REQUIRED)
 find_package(sqlite3 CONFIG REQUIRED)
 find_package(sqlite-orm REQUIRED)
 find_package(Async++ REQUIRED)
-find_package(ZLIB REQUIRED)
+#find_package(ZLIB REQUIRED)
 # find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(libopenshot)
 find_package(nmslib COMPONENTS nmslib)
@@ -96,7 +96,7 @@ endif()
 add_subdirectory(3rdparty)
 
 # Include sub-projects.
-add_subdirectory (src)
+add_subdirectory(src)
 
 # example
 add_subdirectory(example)
