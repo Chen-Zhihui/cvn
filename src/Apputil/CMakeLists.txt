@@ -4,27 +4,14 @@
 
 set(package_name Apputil)
 
-set(qplayer_src ./src/qplayer/VPlayer.cpp)
-set(qplayer_hdr include/${PROJECT_NAME}/${package_name}/VPlayer.h)
-QT5_WRAP_CPP(qplayer_hdr_moc ${qplayer_hdr})
 
 add_library ( ${package_name} STATIC 
 src/TmplApp.cpp
-src/AppWidget.cpp
-src/QtApplication.cpp
-src/QtScheduler.cpp
-include/${PROJECT_NAME}/${package_name}/TmplApp.h
-src/AppWidget.h
-include/${PROJECT_NAME}/${package_name}/QtApplication.h
-include/${PROJECT_NAME}/${package_name}/QtScheduler.h
-
-${qplayer_hdr_moc} ${qplayer_src}
 )
 
 
 target_link_libraries(${package_name} 
-    PUBLIC Poco::Util Poco::Zip Qt5::Core Qt5::Gui Qt5::Widgets Async++ 
-	PRIVATE openshot  
+    PUBLIC Poco::Util Poco::Zip Poco::XML Poco::Data sqlite3 ZLIB::ZLIB Async++  EXPAT::EXPAT PCRE::PCRE
 )
 
 set_target_properties(${package_name} PROPERTIES 
@@ -37,7 +24,6 @@ target_include_directories(${package_name}
 
 # TODO: Add tests and install targets if needed.
 
-add_subdirectory(sample)
 # Install support
 
 PACKAGE_INSTALL(${package_name})

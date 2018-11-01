@@ -1,5 +1,5 @@
 
-#include <Cvn/Apputil/QtScheduler.h>
+#include <Cvn/Apputilqt/QtScheduler.h>
 #include <Poco/SingletonHolder.h>
 #include <QtGui>
 #include <QtCore>

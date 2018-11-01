@@ -2,11 +2,11 @@
 // Created by tom on 16-11-12.
 //
 
-#include <Cvn/Apputil/QtApplication.h>
+#include <Cvn/Apputilqt/QtApplication.h>
+#include <Cvn/Apputilqt/QtScheduler.h>
 #include "Poco/Util/HelpFormatter.h"
 #include <iostream>
 #include <sstream>
-#include <Cvn/Apputil/QtScheduler.h>
 #include <QFile>
 #include <QTextStream>
 #include "AppWidget.h"

@@ -9,7 +9,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <async++.h>
-#include <Cvn/Apputil/QtScheduler.h>
+#include <Cvn/Apputilqt/QtScheduler.h>
 
 using namespace async;
 using namespace std;

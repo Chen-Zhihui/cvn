@@ -1,6 +1,7 @@
 
 
 add_subdirectory(Apputil)
+add_subdirectory(Apputilqt)
 if(USE_Caffe2)
 add_subdirectory(Caffe2util)
 endif()

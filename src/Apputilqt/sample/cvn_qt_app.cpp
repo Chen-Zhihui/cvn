@@ -1,6 +1,6 @@
 
 
-#include <Cvn/Apputil/QtApplication.h>
+#include <Cvn/Apputilqt/QtApplication.h>
 #include "AppWin.h"
 
 class CvnApp : public Cvn::Apputil::QtApplication {

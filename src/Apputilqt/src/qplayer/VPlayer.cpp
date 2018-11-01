@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include <Cvn/Apputil/VPlayer.h>
+#include <Cvn/Apputilqt/VPlayer.h>
 
 using namespace openshot;
 

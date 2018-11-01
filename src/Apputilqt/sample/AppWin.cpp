@@ -9,7 +9,7 @@
 #include <qtmaterialiconbutton.h>
 #include <qtmaterialtabs.h>
 #include <lib/qtmaterialtheme.h>
-#include <Cvn/Apputil/VPlayer.h>
+#include <Cvn/Apputilqt/VPlayer.h>
 
 
 #include <QtAwesome.h>
