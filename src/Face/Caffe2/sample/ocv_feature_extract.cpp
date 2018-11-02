@@ -36,8 +36,8 @@ class DetectorApp : public TmplApp
 			 {"output_dir", "E:\\ws.cvn"},
 			 {"dsfile", "webfaces.txt"},
 			 {"dbfile", "webfaces.sqlite"},
-			 {"maxFolder", 10000},
-			 {"maxImg", 100}},
+			 {"maxFolder", 10000000},
+			 {"maxImg", 1}},
 			 },
 		{"facemodel" , {
 				 {"dir", "E:\\ws_face.model\\caffe2\\sphereface"},
