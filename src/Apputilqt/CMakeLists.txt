@@ -21,7 +21,7 @@ ${qplayer_hdr_moc} ${qplayer_src}
 
 
 target_link_libraries(${package_name} 
-    PUBLIC Poco::Util Poco::Zip Qt5::Core Qt5::Gui Qt5::Widgets Async++ 
+    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++
 	PRIVATE openshot  
 )
 
@@ -35,7 +35,7 @@ target_include_directories(${package_name}
 
 # TODO: Add tests and install targets if needed.
 
-#add_subdirectory(sample)
+add_subdirectory(sample)
 # Install support
 
 PACKAGE_INSTALL(${package_name})

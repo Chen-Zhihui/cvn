@@ -6,7 +6,7 @@ set(testcase
 	test_expected.cpp 
 	test_json.cpp
 	test_fmt.cpp
-	test_sqlite_orm.cpp
+	#test_sqlite_orm.cpp
 	)
 
 add_executable(catch_test  ${testcase})

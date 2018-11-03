@@ -47,8 +47,8 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 
 	Poco::DirectoryIterator it(inputdir);
 	Poco::DirectoryIterator end;
-	uint32_t id = 0;
-	uint32_t label = 0;
+	int32_t id = 0;
+	int32_t label = 0;
 	while (it != end) {
 		Poco::Path folder(inputdir, it.name());
 		Poco::DirectoryIterator fileIt(folder);
@@ -59,7 +59,7 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 			continue;
 		}
 
-		uint32_t files = 0;
+		int32_t files = 0;
 		while (fileIt != fileEnd) {
 			auto feat = _feature(fileIt.path().toString());
 			if (feat.empty()) {

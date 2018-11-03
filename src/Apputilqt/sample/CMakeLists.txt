@@ -9,13 +9,13 @@ cvn_qt_app.cpp
 AppWin.cpp
 )
 
-target_link_libraries(cv_qt_app 
-    qtmaterial qtawesome qdarkstyle Apputilqt 
-    /lib/x86_64-linux-gnu/libz.so.1
-    )
+target_link_libraries(cv_qt_app
+        PUBLIC qtmaterial qtawesome qdarkstyle Apputilqt  Apputil Poco::Foundation
+        ${FFMPEG_LIBRARIES}
+        )
+
 if(LINUX)
-target_link_libraries(cv_qt_app 
-    /lib/x86_64-linux-gnu/libz.so.1
+target_link_libraries(cv_qt_app
 )
 endif()
 

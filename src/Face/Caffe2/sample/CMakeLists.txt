@@ -14,9 +14,10 @@ add_executable (ocv_feature_extract
 ocv_feature_extract.cpp 
 )
 
-target_link_libraries(ocv_feature_extract 
-PRIVATE Apputil FaceBase FaceOcv FaceCaffe2 ${OpenCV_LIBRARIES}  fmt::fmt
-)
+target_link_libraries(ocv_feature_extract
+        FaceBase FaceOcv FaceCaffe2 ${OpenCV_LIBRARIES} Apputil  Poco::Foundation
+        fmt::fmt
+        )
 target_include_directories( ocv_feature_extract
 PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
 )
