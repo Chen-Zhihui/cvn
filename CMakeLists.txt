@@ -111,12 +111,8 @@ add_subdirectory(3rdparty)
 # Include sub-projects.
 add_subdirectory(src)
 
-# example
-add_subdirectory(example)
 # test
 add_subdirectory(test)
-
-
 
 # install
 include(CMakePackageConfigHelpers)

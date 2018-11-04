@@ -131,7 +131,51 @@ ${qtmaterial_src_dir}/qtmateriallistitem.h
 ${qtmaterial_src_dir}/qtmateriallistitem_p.h
 )
 
-QT5_WRAP_CPP(qtmaterial_hdr_moc ${qtmaterial_hdr})
+set(qtmaterial_hdr_need_mocs
+        ${qtmaterial_src_dir}/qtmaterialavatar.h
+        ${qtmaterial_src_dir}/lib/qtmaterialstyle.h
+        ${qtmaterial_src_dir}/lib/qtmaterialtheme.h
+        ${qtmaterial_src_dir}/qtmaterialbadge.h
+        ${qtmaterial_src_dir}/lib/qtmaterialoverlaywidget.h
+        ${qtmaterial_src_dir}/qtmaterialcheckbox.h
+        ${qtmaterial_src_dir}/lib/qtmaterialcheckable_internal.h
+        ${qtmaterial_src_dir}/lib/qtmaterialripple.h
+        ${qtmaterial_src_dir}/lib/qtmaterialrippleoverlay.h
+        ${qtmaterial_src_dir}/lib/qtmaterialcheckable.h
+        ${qtmaterial_src_dir}/qtmaterialfab.h
+        ${qtmaterial_src_dir}/qtmaterialraisedbutton.h
+        ${qtmaterial_src_dir}/qtmaterialflatbutton_internal.h
+        ${qtmaterial_src_dir}/qtmaterialflatbutton.h
+        ${qtmaterial_src_dir}/lib/qtmaterialstatetransition.h
+        ${qtmaterial_src_dir}/qtmaterialiconbutton.h
+        ${qtmaterial_src_dir}/qtmaterialprogress_internal.h
+        ${qtmaterial_src_dir}/qtmaterialprogress.h
+        ${qtmaterial_src_dir}/qtmaterialcircularprogress_internal.h
+        ${qtmaterial_src_dir}/qtmaterialcircularprogress.h
+        ${qtmaterial_src_dir}/qtmaterialslider_internal.h
+        ${qtmaterial_src_dir}/qtmaterialslider.h
+        ${qtmaterial_src_dir}/qtmaterialsnackbar_internal.h
+        ${qtmaterial_src_dir}/qtmaterialsnackbar.h
+        ${qtmaterial_src_dir}/qtmaterialradiobutton.h
+        ${qtmaterial_src_dir}/qtmaterialtoggle_internal.h
+        ${qtmaterial_src_dir}/qtmaterialtoggle.h
+        ${qtmaterial_src_dir}/qtmaterialtextfield_internal.h
+        ${qtmaterial_src_dir}/qtmaterialtextfield.h
+        ${qtmaterial_src_dir}/qtmaterialtabs_internal.h
+        ${qtmaterial_src_dir}/qtmaterialtabs.h
+        ${qtmaterial_src_dir}/qtmaterialscrollbar_internal.h
+        ${qtmaterial_src_dir}/qtmaterialscrollbar.h
+        ${qtmaterial_src_dir}/qtmaterialdialog_internal.h
+        ${qtmaterial_src_dir}/qtmaterialdialog.h
+        ${qtmaterial_src_dir}/qtmaterialdrawer_internal.h
+        ${qtmaterial_src_dir}/qtmaterialdrawer.h
+        ${qtmaterial_src_dir}/qtmaterialappbar.h
+        ${qtmaterial_src_dir}/qtmaterialautocomplete.h
+        ${qtmaterial_src_dir}/qtmaterialautocomplete_internal.h
+        ${qtmaterial_src_dir}/qtmaterialmenu.h
+        )
+
+QT5_WRAP_CPP(qtmaterial_hdr_moc ${qtmaterial_hdr_need_mocs})
 QT5_ADD_RESOURCES(qtmaterial_res ${qtmaterial_src_dir}/resources.qrc)
 
 add_library( qtmaterial STATIC ${qtmaterial_src} ${qtmaterial_res} ${qtmaterial_hdr_moc})

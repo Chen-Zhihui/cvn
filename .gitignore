@@ -4,3 +4,4 @@
 /.idea/
 /cmake-build-debug/
 *.txt.user
+/cmake-build-release/

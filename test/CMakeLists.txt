@@ -9,14 +9,14 @@ set(testcase
 	#test_sqlite_orm.cpp
 	)
 
-add_executable(catch_test  ${testcase})
-target_link_libraries(catch_test fmt::fmt)
-target_link_libraries(catch_test Catch2::Catch2)
-target_link_libraries(catch_test sqlite_orm)
+add_executable(test_3rdparty  ${testcase})
+target_link_libraries(test_3rdparty fmt::fmt)
+target_link_libraries(test_3rdparty Catch2::Catch2)
+target_link_libraries(test_3rdparty sqlite_orm)
 if(MSVC)
-target_compile_options(catch_test 
+target_compile_options(test_3rdparty
 PRIVATE "/bigobj"
 )
 endif()
 include(Catch)
-catch_discover_tests(catch_test)
+catch_discover_tests(test_3rdparty)

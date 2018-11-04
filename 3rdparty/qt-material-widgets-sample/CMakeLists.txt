@@ -1,4 +1,5 @@
 
 
-add_executable(demo_qtmaterial demo_qtmaterial.cpp)
-target_link_libraries(demo_qtmaterial qtmaterial)
+
+add_executable(sample_qtmaterial sample_qtmaterial.cpp)
+target_link_libraries(sample_qtmaterial qtmaterial)

@@ -23,7 +23,8 @@ target_include_directories(${package_name}
 
 
 # TODO: Add tests and install targets if needed.
-
+add_subdirectory(sample)
 # Install support
+
 
 PACKAGE_INSTALL(${package_name})
