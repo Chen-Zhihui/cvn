@@ -34,10 +34,10 @@ class DetectorApp : public TmplApp
 		{ {"extractor" , {
 			 {"input_dir", "E:\\testdata_inuse\\webfaces-imgs"},
 			 {"output_dir", "E:\\ws.cvn"},
-			 {"dsfile", "webfaces.txt"},
-			 {"dbfile", "webfaces.sqlite"},
-			 {"maxFolder", 10000000},
-			 {"maxImg", 1}},
+			 {"dsfile", "webfaces-2000by4.txt"},
+			 {"dbfile", "webfaces-2000by4.sqlite"},
+			 {"maxFolder", 2000},
+			 {"maxImg", 4}},
 			 },
 		{"facemodel" , {
 				 {"dir", "E:\\ws_face.model\\caffe2\\sphereface"},

@@ -59,7 +59,7 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 			continue;
 		}
 
-		int32_t files = 0;
+		int32_t files = 1;
 		while (fileIt != fileEnd) {
 			auto feat = _feature(fileIt.path().toString());
 			if (feat.empty()) {
@@ -70,7 +70,7 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 			similarity::Object obj(id, label, sizeof(float)*feat.size(), &feat[0]);
 			space.WriteNextObj(obj, fmt::format("{0}", it.name()), *output);
 			if( mkdb ) {
-				ImgRec rec{ id, label, it.name(), files, std::vector<char>(obj.data(), obj.data()+obj.datalength()), fileIt.path().toString() };
+				ImgRec rec{ id, label, it.name(), fileIt.name(), files, std::vector<char>(obj.data(), obj.data()+obj.datalength()), fileIt.path().toString() };
 				storage.insert(rec);
 			}
 			id++;

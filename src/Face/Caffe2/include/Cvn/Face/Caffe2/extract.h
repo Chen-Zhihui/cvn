@@ -23,6 +23,7 @@ public:
 		int32_t id;
 		int32_t label;
 		std::string externalId;
+		std::string filename;
 		int32_t file_index_inFolder;
 		std::vector<char> data;
 		std::string path;
@@ -32,6 +33,7 @@ public:
 				sqlite_orm::make_column("id", &ImgRec::id), //, sqlite_orm::primary_key()),
 				sqlite_orm::make_column("label", &ImgRec::label),
 				sqlite_orm::make_column("externalId", &ImgRec::externalId),
+				sqlite_orm::make_column("filename", &ImgRec::filename),
 				sqlite_orm::make_column("file_index_inFolder", &ImgRec::file_index_inFolder),
 				sqlite_orm::make_column("data", &ImgRec::data),
 				sqlite_orm::make_column("path", &ImgRec::path));
