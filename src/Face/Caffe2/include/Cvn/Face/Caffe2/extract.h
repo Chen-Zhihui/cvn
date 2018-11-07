@@ -61,6 +61,8 @@ public:
 	*/
 	bool extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile, bool mkdb=false) const;
 
+	bool mkIndex(const std::string & inputdir, const std::string & indexfile, const std::string & rawDatafile) const;
+
 	//bool extract(const std::string & inputdir, std::vector<ImgRec> & idxLog, std::vector<LabelRec> & labels, similarity::ObjectVector & dataset) const;
 
 private:

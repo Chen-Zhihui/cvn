@@ -24,3 +24,19 @@ PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
 
 EXECUTABLE_INSTALL(ocv_feature_extract)
 
+
+
+###
+add_executable (ocv_feature_extract_h5
+ocv_feature_extract_h5.cpp 
+)
+
+target_link_libraries(ocv_feature_extract_h5
+        FaceBase FaceOcv FaceCaffe2 ${OpenCV_LIBRARIES} Apputil  Poco::Foundation
+        fmt::fmt
+        )
+target_include_directories( ocv_feature_extract_h5
+PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
+)
+
+EXECUTABLE_INSTALL(ocv_feature_extract_h5)
