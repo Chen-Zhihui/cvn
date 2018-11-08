@@ -12,6 +12,7 @@
 #include <Poco/Format.h>
 #include <Poco/Path.h>
 #include <Poco/File.h>
+#include <Poco/LogStream.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
@@ -87,7 +88,7 @@ namespace Cvn {
 
 		for (int i = 0; i < 10; i++)
 			logger().information("###################################################");
-		    logger().information("^^^^^^^^^^^^^^^^^^^^ start ^^^^^^^^^^^^^^^^^^^^^^^^");
+		logger().information("^^^^^^^^^^^^^^^^^^^^ start ^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
 
 	void TmplApp::init(int argc, char* argv[]) {
@@ -124,6 +125,7 @@ namespace Cvn {
 
 	void TmplApp::initialize(Application& self)
 	{
+		_sw.start();
 		logger().information("====================== initialize ==========================");
 		loadConfiguration(); // load default configuration files, if present
 		Application::initialize(self);
@@ -134,7 +136,7 @@ namespace Cvn {
 	{
 		// add your own uninitialization code here
 		Application::uninitialize();
-
+		logger().information("====== eclapsed time = %d s", _sw.elapsedSeconds());
 		logger().information("====================== end ==========================");
 	}
 

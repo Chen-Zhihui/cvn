@@ -34,9 +34,9 @@ class DetectorApp : public TmplApp
 		{ {"extractor" , {
 			 {"input_dir", "E:\\testdata_inuse\\webfaces-imgs"},
 			 {"output_dir", "E:\\ws.cvn"},
-			 {"h5file", "webfaces-2000by4.h5"},
-			 {"indexfile", "webfaces-2000by4.index"},
-			 {"maxFolder", 1},
+			 {"h5file", "webfaces-10000by4.h5"},
+			 {"indexfile", "webfaces-10000by4.index"},
+			 {"maxFolder", 10000},
 			 {"maxImg", 4}},
 			 },
 		{"facemodel" , {
@@ -52,7 +52,7 @@ class DetectorApp : public TmplApp
 
 	int main(const Poco::Util::Application::ArgVec &args)
 	{
-		printConfig(this->configFile());
+		//printConfig(this->configFile());
 
 		auto extractorConfig = configFile().createView("extractor");
 

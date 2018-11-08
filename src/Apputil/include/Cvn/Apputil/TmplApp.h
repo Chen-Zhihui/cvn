@@ -8,6 +8,7 @@
 #include <Poco/Util/AbstractConfiguration.h>
 #include <Poco/Util/MapConfiguration.h>
 #include <Poco/Util/JSONConfiguration.h>
+#include <Poco/Stopwatch.h>
 #include <Poco/AutoPtr.h>
 #include <iostream>
 #include <sstream>
@@ -83,6 +84,8 @@ namespace Cvn {
 
 			Poco::Util::MapConfiguration * _pMapConfig = nullptr;
 			Poco::Util::JSONConfiguration * _pJsonConfig = nullptr;
+
+			Poco::Stopwatch _sw;
 
 		};
 

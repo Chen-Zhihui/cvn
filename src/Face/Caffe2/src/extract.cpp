@@ -8,6 +8,7 @@
 #include "Poco/DirectoryIterator.h"
 #include <nmslib/space/space_vector.h>
 #include <nmslib/space/space_vector_gen.h>
+#include <nmslib/params.h>
 #include <space/space_word_embed.h>
 #include <fmt/format.h>
 
@@ -102,7 +103,9 @@ bool Extracter::extract(const std::string & inputdir, const std::string & dbFile
 #include <highfive/H5File.hpp>
 
 const std::string DATASET_NAME_object("object");
+const std::string DATASET_NAME_rawdata("rawdata");
 const std::string DATASET_NAME_label("label");
+const std::string DATASET_NAME_stat("stat");
 
 
 bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexfile, const std::string & rawDatafile) const {
@@ -120,28 +123,47 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 
 	//
 	size_t feature_size = 512;
+	size_t object_size = feature_size + 2;
 	hsize_t row = 0;
 	int32_t id = 0;
 	int32_t label = 0;
-	std::vector<float> feat(feature_size);
-	similarity::Object obj(id, label, sizeof(float)*feature_size, &feat[0]);
-	size_t buffer_size = obj.bufferlength();
-	
-	/*
-	hsize_t dims[2] = { 1,buffer_size };	        // dataset dimensions at creation
-	hsize_t maxdims[2] = { H5S_UNLIMITED, buffer_size };
-	H5::H5File h5(rawDatafile, H5F_ACC_TRUNC);
-	H5::DataSpace objds(2, dims, maxdims);
-	auto dataset_ojb = h5.createDataSet(DATASET_NAME_object, H5::PredType::STD_I32BE, objds);
 
-	hsize_t ldim[1] = { 1 };
-	hsize_t lmaxdim[1] = { H5S_UNLIMITED };
-	//H5::DataSpace labels(1, ldim, lmaxdim);
-	//auto dataset_label = h5.createDataSet(DATASET_NAME_label,  ,labels);
-	*/
+	std::vector<float> stat_data(10);
+	std::vector<float> feat_temp(feature_size);
+	similarity::Object obj(id, label, sizeof(float) * feature_size, &feat_temp[0]);
+	size_t buffer_size = obj.bufferlength();
+	similarity::ObjectVector objSet;
+
+
 	HighFive::File h5(rawDatafile, HighFive::File::ReadWrite | HighFive::File::Create | HighFive::File::Truncate);
-	HighFive::DataSpace dataspace({ 100, feature_size });
-	HighFive::DataSet dataset = h5.createDataSet(DATASET_NAME_object, dataspace, HighFive::AtomicType<float>());
+	std::vector<hsize_t> dim;
+	dim.push_back(_maxImgPerObj * _maxOjbs);
+	dim.push_back(object_size);
+	HighFive::DataSpace objectspace(dim);
+	dim.clear();
+
+	dim.push_back(_maxImgPerObj * _maxOjbs);
+	dim.push_back(feature_size);
+	HighFive::DataSpace rawdataspace(dim);
+	dim.clear();
+
+	dim.push_back(_maxImgPerObj * _maxOjbs);
+	dim.push_back(1);
+	HighFive::DataSpace labelspace(dim);
+	dim.clear();
+
+	/*
+	dim.push_back(_maxImgPerObj * _maxOjbs);
+	dim.push_back(1);
+	HighFive::DataSpace statspace(dim);
+	dim.clear();
+	*/
+
+	//HighFive::DataSetCreateProps props;
+	//props.add(HighFive::Chunking(std::vector<hsize_t>{1, feature_size}));
+	HighFive::DataSet objset = h5.createDataSet(DATASET_NAME_object, objectspace, HighFive::AtomicType<float>()); // , props);
+	HighFive::DataSet dataset = h5.createDataSet(DATASET_NAME_rawdata, rawdataspace, HighFive::AtomicType<float>()); // , props);
+	HighFive::DataSet labelset = h5.createDataSet(DATASET_NAME_label, labelspace, HighFive::AtomicType<int32_t>()); // , props);
 
 	Poco::DirectoryIterator it(inputdir);
 	Poco::DirectoryIterator end;
@@ -155,7 +177,7 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 			continue;
 		}
 
-		int32_t files = 1;
+		int32_t files = 0;
 		while (fileIt != fileEnd) {
 			auto feat = _feature(fileIt.path().toString());
 			if (feat.empty()) {
@@ -164,12 +186,11 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 				continue;
 			}
 			similarity::Object obj(id, label, sizeof(float)*feat.size(), &feat[0]);
-			//dataset.resize({row+1,feature_size });
-			dataset.select({row, 0 }, {1, feature_size }).write(&feat[0]);
-			row++;
-			//dataset_ojb.write(obj.buffer(), H5::PredType::STD_U32LE,)
+			objset.select({row, 0 }, {1, object_size }).write(obj.buffer());
+			dataset.select({ row, 0 }, { 1, feature_size }).write(feat);
+			labelset.select({ row, 0 }, { 1,1 }).write(label);
 
-			//dataset_label.write(it.name());
+			row++;
 			id++;
 			files++;
 			fileIt++;
@@ -184,6 +205,13 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 		if (label >= _maxOjbs)
 			break;
 	}
+
+	similarity::AnyParams IndexParams(
+		{
+		"NN=11",
+		"efConstruction=50",
+		"indexThreadQty=4" /* 4 indexing threads */
+		});
 
 	return true;
 }
