@@ -9,7 +9,6 @@
 #include <nmslib/space/space_vector.h>
 #include <nmslib/space/space_vector_gen.h>
 #include <nmslib/params.h>
-#include <nmslib/method/falconn.h>
 #include <nmslib/methodfactory.h>
 #include <nmslib/spacefactory.h>
 #include <space/space_word_embed.h>
