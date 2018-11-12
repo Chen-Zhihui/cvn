@@ -9,6 +9,9 @@
 #include <nmslib/space/space_vector.h>
 #include <nmslib/space/space_vector_gen.h>
 #include <nmslib/params.h>
+#include <nmslib/method/falconn.h>
+#include <nmslib/methodfactory.h>
+#include <nmslib/spacefactory.h>
 #include <space/space_word_embed.h>
 #include <fmt/format.h>
 
@@ -206,12 +209,30 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 			break;
 	}
 
+	//index
 	similarity::AnyParams IndexParams(
 		{
 		"NN=11",
 		"efConstruction=50",
 		"indexThreadQty=4" /* 4 indexing threads */
 		});
+
+	similarity::AnyParams QueryTimeParams(
+		{
+		"efSearch=50",
+		}
+	);
+
+	similarity::Index<float>*   indexSmallWorld =
+		similarity::MethodFactoryRegistry<float>::Instance().CreateMethod(true /* print progress */,
+			"small_world_rand",
+			"custom",
+			space,
+			ov
+		);
+
+	indexSmallWorld->CreateIndex(IndexParams);
+	indexSmallWorld->SetQueryTimeParams(QueryTimeParams);
 
 	return true;
 }
