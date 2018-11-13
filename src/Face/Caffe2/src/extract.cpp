@@ -21,17 +21,6 @@ Extracter::Extracter(feature_fun feature, size_t maxobjs , size_t maxImgPerObj )
 
 }
 
-struct DistL2 {
-	/*
-	 * Important: the function is const and arguments are const as well!!!
-	 */
-	float operator()(const float* x, const float* y, size_t qty) const {
-		float res = 0;
-		for (size_t i = 0; i < qty; ++i) res += (x[i] - y[i])*(x[i] - y[i]);
-		return sqrt(res);
-	}
-};
-
 bool Extracter::extract(const std::string & inputdir, const std::string & dbFile, const std::string & dateSetFile, bool mkdb) const {
 	similarity::WordEmbedSpace<float> space(similarity::kEmbedDistL2);
 	similarity::ObjectVector ov;
@@ -208,30 +197,15 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 			break;
 	}
 
-	//index
-	similarity::AnyParams IndexParams(
-		{
-		"NN=11",
-		"efConstruction=50",
-		"indexThreadQty=4" /* 4 indexing threads */
-		});
+	if (id < _maxImgPerObj * _maxOjbs) {
+		size_t count = _maxImgPerObj * _maxOjbs - id;
+		std::vector<int32_t> zeros; zeros.reserve(count);
+		std::fill(zeros.begin(), zeros.end(), -1);
+		labelset.select({ row, 0 }, { count, 1 }).write(zeros);
+	}
 
-	similarity::AnyParams QueryTimeParams(
-		{
-		"efSearch=50",
-		}
-	);
 
-	similarity::Index<float>*   indexSmallWorld =
-		similarity::MethodFactoryRegistry<float>::Instance().CreateMethod(true /* print progress */,
-			"small_world_rand",
-			"custom",
-			space,
-			ov
-		);
 
-	indexSmallWorld->CreateIndex(IndexParams);
-	indexSmallWorld->SetQueryTimeParams(QueryTimeParams);
 
 	return true;
 }
