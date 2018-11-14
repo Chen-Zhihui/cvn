@@ -5,3 +5,4 @@
 /cmake-build-debug/
 *.txt.user
 /cmake-build-release/
+*.DS_Store

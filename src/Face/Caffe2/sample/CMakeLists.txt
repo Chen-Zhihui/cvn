@@ -6,6 +6,7 @@ $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Cvutil/include>
 $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Face/Base/include>
 $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Face/Ocv/include>
 $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/Face/Caffe2/include>
+$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rdparty/FALCONN/src/include>
 )
 
 
@@ -46,7 +47,7 @@ EXECUTABLE_INSTALL(ocv_feature_extract_h5)
 
 ###
 add_executable (ocv_feature_index
-ocv_feature_index.cpp 
+ocv_feature_index_falconn.cpp 
 )
 
 target_link_libraries(ocv_feature_index
@@ -56,5 +57,8 @@ target_link_libraries(ocv_feature_index
 target_include_directories( ocv_feature_index
 PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
 )
+if(MSVC)
+target_compile_options(ocv_feature_index PRIVATE /bigobj)
+endif()
 
 EXECUTABLE_INSTALL(ocv_feature_index)

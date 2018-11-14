@@ -42,6 +42,9 @@
 #include <highfive/H5File.hpp>
 #include <Eigen/Eigen>
 
+#include "falconn/eigen_wrapper.h"
+#include "falconn/lsh_nn_table.h"
+
 using namespace cv;
 using namespace face;
 using namespace std;
@@ -76,6 +79,7 @@ class DetectorApp : public TmplApp
 
 	int main(const Poco::Util::Application::ArgVec &args)
 	{
+		std::vector<falconn::DenseVector<float>> falconn_data;
 		//printConfig(this->configFile());
 
 		similarity::initLibrary(0, LIB_LOGNONE, NULL);
@@ -147,6 +151,8 @@ class DetectorApp : public TmplApp
 			v.normalize(); // L2归一化
 			similarity::Object * obj = new similarity::Object(id, labels.at(id), sizeof(float)*feature_size, &features[id][0]);
 			ov.push_back(obj);
+
+			falconn_data.push_back(v);
 		}
 
 	//index
@@ -188,30 +194,105 @@ class DetectorApp : public TmplApp
 		dim.clear();
 		HighFive::DataSet labelset = query.createDataSet(DATASET_NAME_label, resspace , HighFive::AtomicType<int32_t>()); // , props);
 
-
 		std::vector<int32_t> result; result.reserve(K+1);
-		auto printResults = [K, &labels] (similarity::KNNQuery<float>* qobj) -> std::vector<int32_t> {
+		auto printResults = [] (similarity::KNNQuery<float>* qobj) -> std::vector<int32_t> {
 			std::vector<int32_t>  resvec;
-			resvec.reserve(K+1);
 			similarity::KNNQueue<float>* res = qobj->Result()->Clone();
 			while (!res->Empty()) {
-				cout << res->TopObject()->id() << " : " << res->TopDistance() << endl;
-				resvec.push_back(res->TopObject()->label());
+				resvec.push_back(res->TopObject()->id());
 				res->Pop();
 			}
 			delete res;
-			resvec.push_back(qobj->QueryObject()->label());
 			return std::move(resvec);
+		};
+
+		auto reduce_by_distance = [&features, feature_size, K](const std::vector<int32_t> & idxCandidate, const std::vector<float> & feat ) -> std::vector<int32_t> {
+			std::vector<std::pair<float, size_t> > dists_idxs;
+			auto q = Eigen::VectorXf::Map(&feat[0], feature_size);
+			for (int i = 0; i < idxCandidate.size(); i++) {
+				size_t row = idxCandidate[i];
+				auto p = Eigen::VectorXf::Map(&features[row][0], feature_size);
+				float tmp_cosine_dist = q.dot(p);
+				dists_idxs.push_back(std::make_pair(tmp_cosine_dist, row));
+			}
+			std::sort(dists_idxs.begin(), dists_idxs.end(), [](const std::pair<float, size_t> & left, const std::pair<float, size_t> & right) {
+				return left.first > right.first;
+			});
+			//std::reverse(dists_idxs.begin(), dists_idxs.end());
+
+			std::vector<int32_t> result;
+			for (int i = 0; i < K; i++) {
+				result.push_back((int32_t)dists_idxs[i].second);
+			}
+			return result;
+		};
+
+		auto idx2label = [&labels](const std::vector<int32_t> & ids) -> std::vector<int32_t> {
+			std::vector<int32_t> labs;
+			for (int i = 0; i < ids.size(); i++) {
+				labs.push_back(labels[ids[i]]);
+			}
+			return labs;
 		};
 
 		hsize_t rowout = 0;
 		int32_t start = 0;
+
 		for (const similarity::Object * queryObj : ov) {
-			similarity::KNNQuery<float>   knnQ(space, queryObj, K);
+			similarity::KNNQuery<float>   knnQ(space, queryObj, 50);
 			indexSmallWorld->Search(&knnQ, start);
 			result = printResults(&knnQ);
+			result = reduce_by_distance(result, features[rowout]);
+			result = idx2label(result);
+			poco_assert(result.size() == K);
+			result.push_back(queryObj->label());
 			labelset.select({ rowout, 0 }, { 1, K+1 }).write(result);
 			rowout++;
+		}
+
+
+
+		HighFive::DataSet falconnset = query.createDataSet(std::string("falconn"), resspace, HighFive::AtomicType<int32_t>());
+		{
+			falconn::LSHConstructionParameters params_cp;
+			unique_ptr<falconn::LSHNearestNeighborTable<falconn::DenseVector<float>>> cptable;
+			// Common LSH parameters
+			int num_tables = 8;
+			int num_setup_threads = 0;
+			uint64_t seed = 119417657;
+			falconn::StorageHashTable storage_hash_table = falconn::StorageHashTable::FlatHashTable;
+			falconn::DistanceFunction distance_function = falconn::DistanceFunction::NegativeInnerProduct;
+			// Cross polytope hashing
+			params_cp.dimension = feature_size;
+			params_cp.lsh_family = falconn::LSHFamily::CrossPolytope;
+			params_cp.distance_function = distance_function;
+			params_cp.storage_hash_table = storage_hash_table;
+			params_cp.k = 2; // 每个哈希表的哈希函数数目
+			params_cp.l = num_tables; // 哈希表数目
+			params_cp.last_cp_dimension = 2;
+			params_cp.num_rotations = 2;
+			params_cp.num_setup_threads = num_setup_threads;
+			params_cp.seed = seed ^ 833840234;
+			cptable = unique_ptr<falconn::LSHNearestNeighborTable<falconn::DenseVector<float>>>(std::move(falconn::construct_table<falconn::DenseVector<float>>(falconn_data, params_cp)));
+			cptable->set_num_probes(896);
+
+			rowout = 0;
+			for (int32_t id = 0; id < labels.size(); id++) {
+				try {
+					auto q = Eigen::VectorXf::Map(&features[id][0], feature_size);
+					//q.normalize(); // L2归一化
+					std::vector<int32_t> idxCandidate;
+					cptable->find_k_nearest_neighbors(q, 50, &idxCandidate); // LSH find the K nearest neighbors
+					std::vector<int32_t> result = reduce_by_distance(idxCandidate, features[id]);
+					result = idx2label(result);
+					result.push_back(labels[id]);
+					falconnset.select({ rowout++, 0 }, { 1, K + 1 }).write(result);
+				}
+				catch (...) {
+					rowout++;
+					logger().information("exception");
+				}
+			}
 		}
 
 		return 0;
