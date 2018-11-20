@@ -7,3 +7,6 @@
 [submodule "3rdparty/QDarkStyleSheet"]
 	path = 3rdparty/QDarkStyleSheet
 	url = https://github.com/ColinDuquesnoy/QDarkStyleSheet.git
+[submodule "3rdparty/rxqt"]
+	path = 3rdparty/rxqt
+	url = https://github.com/tetsurom/rxqt.git
