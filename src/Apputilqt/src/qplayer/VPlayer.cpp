@@ -24,6 +24,8 @@ namespace Cvn {
 			vbox->setMargin(0);
 			vbox->setSpacing(0);
 			setFocusPolicy(Qt::StrongFocus);
+
+			connect(video->GetRenderer(), SIGNAL(present(const QImage &)), this, SIGNAL(present(const QImage &)));
 		}
 
 		VPlayer::~VPlayer()

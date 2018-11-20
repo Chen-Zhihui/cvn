@@ -27,6 +27,9 @@ namespace Cvn {
 			VPlayer(QWidget *parent = 0);
 			~VPlayer();
 
+		signals:
+			void present(const QImage &image);
+
 		protected:
 			void keyPressEvent(QKeyEvent *event);
 			void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;

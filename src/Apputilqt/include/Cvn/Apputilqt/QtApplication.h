@@ -9,6 +9,17 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <memory>
+#include <rxqt.hpp>
+#include <rxcpp/operators/rx-subscribe_on.hpp>
+#include <rxcpp/operators/rx-observe_on.hpp>
+
+namespace rx {
+    using namespace rxcpp;
+    using namespace rxcpp::sources;
+    using namespace rxcpp::operators;
+    using namespace rxcpp::schedulers;
+    using namespace rxcpp::util;
+}
 
 namespace Cvn
 {
@@ -31,9 +42,12 @@ class QtApplication : public Poco::Util::Application
 
     void init(int argc, char *argv[]);
 
-	void setupMainWidget(QWidget * w);
+    rx::observe_on_one_worker main_thread();
+
+	  void setupMainWidget(QWidget * w);
 
   protected:
+  
     void initialize(Application &self) override;
 
     void uninitialize() override;
@@ -67,6 +81,8 @@ protected:
     char **_argv;
     std::shared_ptr<QMainWindow> _main;
     std::shared_ptr<QApplication> _app;
+    
+    std::shared_ptr<rxqt::run_loop> _rxqt_run_loop;
 };
 
 } // namespace Apputil
