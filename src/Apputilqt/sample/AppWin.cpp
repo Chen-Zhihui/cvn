@@ -10,6 +10,8 @@
 #include <qtmaterialtabs.h>
 #include <lib/qtmaterialtheme.h>
 #include <Cvn/Apputilqt/VPlayer.h>
+#include <Cvn/Apputilqt/DirView.h>
+#include <Cvn/Apputilqt/QtRx.h>
 #include <QtAwesome.h>
 
 #include <rxqt.hpp>
@@ -51,16 +53,21 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 		options.insert("color-off", QColor(Qt::red));
 		tabs->addTab("Playback", awesome->icon(fa::checksquareo, options));
 	}
-	tabs->addTab("Audio");
+	tabs->addTab("DirView");
 	tabs->addTab("Video");
 	tabs->addTab("Tools");
 	tabs->setMaximumHeight(100);
 
 	layout->addWidget(tabs);
 
+	auto stacked = new QStackedWidget(this);
 	auto player = new Cvn::Apputil::VPlayer(this);
+	stacked->addWidget(player);
+	stacked->addWidget(new Cvn::Apputil::DirView());
 
-	layout->addWidget(player);
+	layout->addWidget(stacked);
+
+
 
 	auto hlayout = new QHBoxLayout(this);
 	auto left = new QLabel(this);
@@ -76,10 +83,11 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	};
 
 	rxqt::from_signal(player, &Cvn::Apputil::VPlayer::present)
-		.map([](const QImage & s) { return QTime::currentTime().toString(); })
-		//.subscribe_on(rx::observe_on_event_loop())
+		.subscribe_on(rx::observe_on_new_thread())
+		.map([](const QImage & s) -> QString { return QTime::currentTime().toString(); })
+		.tap([threadId](const QString & msg) { qDebug() << threadId(QString("subscrive_on %1").arg(msg));  })
+		.observe_on(ui_thread())
 		.tap([right, threadId](const QString & str) { right->setText(threadId(QString("subscrive_on %1").arg(str) )); })
-		//.observe_on(rxqt_run_loop.observe_on_run_loop())
 		.subscribe([middle, threadId](const QString & str) { middle->setText(threadId(QString("observe_on %1").arg(str))); });
 
 	rxqt::from_event(player, QEvent::KeyPress)
@@ -89,4 +97,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 		left->setText(QString("KeyEvent=%1").arg(ke->key()));
 	});
 	
+
+
+	connect(tabs, SIGNAL(currentChanged(int)), stacked, SLOT(setCurrentIndex(int)));
 }

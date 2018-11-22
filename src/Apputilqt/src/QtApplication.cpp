@@ -4,6 +4,7 @@
 
 #include <Cvn/Apputilqt/QtApplication.h>
 #include <Cvn/Apputilqt/QtScheduler.h>
+#include <Cvn/Apputilqt/QtRx.h>
 #include "Poco/Util/HelpFormatter.h"
 #include <iostream>
 #include <sstream>
@@ -25,15 +26,11 @@ void QtApplication::init(int argc, char * argv[] )
     Application::init(argc, argv);
 }
 
-rx::observe_on_one_worker QtApplication::main_thread() {
-    return _rxqt_run_loop->observe_on_run_loop();
-}
-
 void QtApplication::initialize(Application& self)
 {
     loadConfiguration();
     _app.reset(new QApplication(_argc, _argv));
-    _rxqt_run_loop.reset(new rxqt::run_loop());
+	QtRx::instance();
     QtScheduler::instance();
 	QFile f(":/qdarkstyle/style.qss");
 	if (!f.exists())

@@ -12,16 +12,20 @@ add_library ( ${package_name} STATIC
 src/AppWidget.cpp
 src/QtApplication.cpp
 src/QtScheduler.cpp
+src/QtRx.cpp
 src/AppWidget.h
+src/DirView.cpp
 include/${PROJECT_NAME}/${package_name}/QtApplication.h
 include/${PROJECT_NAME}/${package_name}/QtScheduler.h
+include/${PROJECT_NAME}/${package_name}/QtRx.h
+include/${PROJECT_NAME}/${package_name}/DirView.h
 
 ${qplayer_hdr_moc} ${qplayer_src}
 )
 
 
 target_link_libraries(${package_name} 
-    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets Async++ BZip2::BZip2 rxqt
+    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets  Qt5::Multimedia  Qt5::MultimediaWidgets Async++ BZip2::BZip2 rxqt
 	PRIVATE openshot  
 )
 
