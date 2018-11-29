@@ -39,27 +39,12 @@
 ****************************************************************************/
 
 #include "Cvn/Apputilqt/HistogramWidget.h"
+#include "Cvn/Apputilqt/QAudioLevel.h"
 #include <QPainter>
 #include <QHBoxLayout>
 
 template <class T>
 static QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels);
-
-class QAudioLevel : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit QAudioLevel(QWidget *parent = 0);
-
-    // Using [0; 1.0] range
-    void setLevel(qreal level);
-
-protected:
-    void paintEvent(QPaintEvent *event);
-
-private:
-    qreal m_level;
-};
 
 QAudioLevel::QAudioLevel(QWidget *parent)
   : QWidget(parent)

@@ -5,13 +5,17 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+
 #include <qtmaterialappbar.h>
 #include <qtmaterialiconbutton.h>
 #include <qtmaterialtabs.h>
+
 #include <lib/qtmaterialtheme.h>
-#include <Cvn/Apputilqt/VPlayer.h>
+
 #include <Cvn/Apputilqt/DirView.h>
 #include <Cvn/Apputilqt/QtRx.h>
+#include <Cvn/Apputilqt/Player.h>
+
 #include <QtAwesome.h>
 
 #include <rxqt.hpp>
@@ -32,15 +36,36 @@ namespace rx {
 }
 
 AppWin::AppWin(QWidget * parent) :QWidget(parent) {
+	QtAwesome* awesome = new QtAwesome(this);
+	awesome->initFontAwesome();
+
 	QVBoxLayout * layout = new QVBoxLayout(this);
 	//layout->addWidget(new QLabel("top"));
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
+
+	auto m_appBar = new QtMaterialAppBar(this);
+	layout->addWidget(m_appBar);
+    QtMaterialIconButton *button = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
+    button->setIconSize(QSize(24, 24));
+    button->setColor(Qt::white);
+    button->setFixedWidth(42);
+    m_appBar->appBarLayout()->addWidget(button);
+
+	QLabel *label = new QLabel("Inbox");
+    label->setAttribute(Qt::WA_TranslucentBackground);
+    label->setForegroundRole(QPalette::Foreground);
+    label->setContentsMargins(6, 0, 0, 0);
+    QPalette palette = label->palette();
+    palette.setColor(label->foregroundRole(), Qt::white);
+    label->setPalette(palette);
+    label->setFont(QFont("Roboto", 18, QFont::Normal));
+    m_appBar->appBarLayout()->addWidget(label);
+
+    m_appBar->appBarLayout()->addStretch(1);
+
 	auto tabs = new  QtMaterialTabs(this);
-
-	QtAwesome* awesome = new QtAwesome(this);
-	awesome->initFontAwesome();
-
+	m_appBar->appBarLayout()->addWidget(tabs);
 	{
 		QVariantMap options;
 		tabs->addTab("Media", awesome->icon(fa::beer, options));
@@ -51,23 +76,16 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 		options.insert("color", QColor(Qt::green));
 		options.insert("text-off", QString(fa::squareo));
 		options.insert("color-off", QColor(Qt::red));
-		tabs->addTab("Playback", awesome->icon(fa::checksquareo, options));
+		tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
 	}
-	tabs->addTab("DirView");
-	tabs->addTab("Video");
-	tabs->addTab("Tools");
 	tabs->setMaximumHeight(100);
 
-	layout->addWidget(tabs);
-
 	auto stacked = new QStackedWidget(this);
-	auto player = new Cvn::Apputil::VPlayer(this);
+	auto player = new Player(this);
 	stacked->addWidget(player);
 	stacked->addWidget(new Cvn::Apputil::DirView());
 
 	layout->addWidget(stacked);
-
-
 
 	auto hlayout = new QHBoxLayout(this);
 	auto left = new QLabel(this);
@@ -81,7 +99,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	auto threadId= [](const QString& name) -> QString 	{
 		return name + QString(": %1\n").arg((int)QThread::currentThreadId());
 	};
-
+/*
 	rxqt::from_signal(player, &Cvn::Apputil::VPlayer::present)
 		.subscribe_on(rx::observe_on_new_thread())
 		.map([](const QImage & s) -> QString { return QTime::currentTime().toString(); })
@@ -96,7 +114,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 		qDebug() << ke->key();
 		left->setText(QString("KeyEvent=%1").arg(ke->key()));
 	});
-	
+	*/
 
 
 	connect(tabs, SIGNAL(currentChanged(int)), stacked, SLOT(setCurrentIndex(int)));

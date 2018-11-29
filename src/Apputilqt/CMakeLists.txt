@@ -12,6 +12,7 @@ include/${PROJECT_NAME}/${package_name}/PlayerControls.h
 include/${PROJECT_NAME}/${package_name}/PlaylistModel.h 
 include/${PROJECT_NAME}/${package_name}/VideoWidget.h 
 include/${PROJECT_NAME}/${package_name}/HistogramWidget.h 
+include/${PROJECT_NAME}/${package_name}/QAudioLevel.h 
 include/${PROJECT_NAME}/${package_name}/ImageViewer.h 
 include/${PROJECT_NAME}/${package_name}/QtApplication.h
 include/${PROJECT_NAME}/${package_name}/QtScheduler.h
