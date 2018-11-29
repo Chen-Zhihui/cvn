@@ -13,7 +13,7 @@ protected:
 
 int main(int argc, char** argv)
 {
-	Poco::AutoPtr<FaceviewApp> pApp = new CvnApp;
+	Poco::AutoPtr<FaceviewApp> pApp = new FaceviewApp;
 
 	try
 	{

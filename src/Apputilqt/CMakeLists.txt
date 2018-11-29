@@ -5,7 +5,20 @@
 set(package_name Apputilqt)
 
 set(qplayer_src ./src/qplayer/VPlayer.cpp)
-set(qplayer_hdr include/${PROJECT_NAME}/${package_name}/VPlayer.h)
+set(qplayer_hdr 
+include/${PROJECT_NAME}/${package_name}/VPlayer.h
+include/${PROJECT_NAME}/${package_name}/Player.h 
+include/${PROJECT_NAME}/${package_name}/PlayerControls.h 
+include/${PROJECT_NAME}/${package_name}/PlaylistModel.h 
+include/${PROJECT_NAME}/${package_name}/VideoWidget.h 
+include/${PROJECT_NAME}/${package_name}/HistogramWidget.h 
+include/${PROJECT_NAME}/${package_name}/ImageViewer.h 
+include/${PROJECT_NAME}/${package_name}/QtApplication.h
+include/${PROJECT_NAME}/${package_name}/QtScheduler.h
+include/${PROJECT_NAME}/${package_name}/QtRx.h
+include/${PROJECT_NAME}/${package_name}/DirView.h
+)
+
 QT5_WRAP_CPP(qplayer_hdr_moc ${qplayer_hdr})
 
 add_library ( ${package_name} STATIC 
@@ -15,17 +28,18 @@ src/QtScheduler.cpp
 src/QtRx.cpp
 src/AppWidget.h
 src/DirView.cpp
-include/${PROJECT_NAME}/${package_name}/QtApplication.h
-include/${PROJECT_NAME}/${package_name}/QtScheduler.h
-include/${PROJECT_NAME}/${package_name}/QtRx.h
-include/${PROJECT_NAME}/${package_name}/DirView.h
-
+src/Player.cpp 
+src/PlaylistModel.cpp 
+src/PlayerControls.cpp 
+src/VideoWidget.cpp 
+src/HistogramWidget.cpp 
+src/ImageViewer.cpp
 ${qplayer_hdr_moc} ${qplayer_src}
 )
 
 
 target_link_libraries(${package_name} 
-    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets  Qt5::Multimedia  Qt5::MultimediaWidgets Async++ BZip2::BZip2 rxqt
+    PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets  Qt5::Multimedia  Qt5::MultimediaWidgets Qt5::PrintSupport Async++ BZip2::BZip2 rxqt
 	PRIVATE openshot  
 )
 
