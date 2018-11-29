@@ -60,11 +60,11 @@ class DetectorApp : public TmplApp
 		{ {"extractor" , {
 			 {"input_dir", "E:\\testdata_inuse\\webfaces-imgs"},
 			 {"output_dir", "E:\\ws.cvn"},
-			 {"h5file", "webfaces-10by4.h5"},
-			 {"h5query", "webfaces-10by4-query.h5"},
-			 {"indexfile", "webfaces-10by4.index"},
-			 {"maxFolder", 10},
-			 {"maxImg", 4}},
+			 {"h5file", "webfaces-500by100.h5"},
+			 {"h5query", "webfaces-500by100-query.h5"},
+			 {"indexfile", "webfaces-500by100.index"},
+			 {"maxFolder", 500},
+			 {"maxImg", 100}},
 			 },
 		{"facemodel" , {
 				 {"dir", "E:\\ws_face.model\\caffe2\\sphereface"},

@@ -52,7 +52,8 @@ ocv_feature_index_falconn.cpp
 
 target_link_libraries(ocv_feature_index
         FaceBase FaceOcv FaceCaffe2 ${OpenCV_LIBRARIES} Apputil  Poco::Foundation
-        fmt::fmt GSL::gsl nmslib::lshkit
+        fmt::fmt GSL::gsl 
+		#nmslib::lshkit
         )
 target_include_directories( ocv_feature_index
 PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}

@@ -20,7 +20,10 @@ include/${PROJECT_NAME}/Face/Caffe2/extract.h
 )
 
 target_link_libraries(${package_name} 
-PUBLIC opencv_core Caffe2util Poco::Util nmslib::nmslib nmslib::lshkit sqlite3 fmt::fmt HighFive hdf5::hdf5_cpp-shared)
+PUBLIC opencv_core Caffe2util Poco::Util 
+  nmslib::nmslib 
+  #nmslib::lshkit 
+  sqlite3 fmt::fmt HighFive hdf5::hdf5_cpp-shared)
 
 target_include_directories( ${package_name}
     PUBLIC ${dep_ins} ${OpenCV_INCLUDE_DIRS}
