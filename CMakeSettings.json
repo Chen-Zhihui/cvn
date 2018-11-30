@@ -18,10 +18,10 @@
     },
     {
       //"VCPKG": "E:\\ws.local\\export-libopenshot-20181019-095108"
-      "VCPKG" : "E:\\ws\\vcpkg"
+      "VCPKG": "E:\\ws\\vcpkg_release"
     },
     {
-      "CMAKE_TOOLCHAIN_FILE" : "E:/ws/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      "CMAKE_TOOLCHAIN_FILE" : "E:/ws/vcpkg_release/scripts/buildsystems/vcpkg.cmake"
     }
   ],
   "configurations": [

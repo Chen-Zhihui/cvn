@@ -20,6 +20,7 @@ include/${PROJECT_NAME}/${package_name}/QtApplication.h
 include/${PROJECT_NAME}/${package_name}/QtScheduler.h
 include/${PROJECT_NAME}/${package_name}/QtRx.h
 include/${PROJECT_NAME}/${package_name}/DirView.h
+src/AppWidget.h
 )
 
 QT5_WRAP_CPP(qplayer_hdr_moc ${qplayer_hdr})
@@ -29,7 +30,6 @@ src/AppWidget.cpp
 src/QtApplication.cpp
 src/QtScheduler.cpp
 src/QtRx.cpp
-src/AppWidget.h
 src/DirView.cpp
 src/Player.cpp 
 src/PlaylistModel.cpp 

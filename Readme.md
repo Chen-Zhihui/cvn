@@ -4,9 +4,7 @@
 * build
 ** cmake
 
-vcpkg install poco nlohmann-json tl-expected Catch2 fmt sqlite3 sqlite-orm asyncplusplus zlib bzip2 expat pcre eigen3 rxcpp gsl openblas hdf5 highfive protobuf
-
-vcpkg install poco:x64-windows nlohmann-json:x64-windows tl-expected:x64-windows Catch2:x64-windows fmt:x64-windows sqlite3:x64-windows sqlite-orm:x64-windows asyncplusplus:x64-windows zlib:x64-windows bzip2:x64-windows expat:x64-windows pcre:x64-windows eigen3:x64-windows rxcpp:x64-windows gsl:x64-windows openblas:x64-windows hdf5:x64-windows highfive:x64-windows protobuf:x64-windows
+vcpkg install poco nlohmann-json tl-expected Catch2 fmt sqlite3 sqlite-orm asyncplusplus zlib bzip2 expat pcre eigen3 rxcpp gsl openblas hdf5[cpp] highfive protobuf nmslib
 
 -DCMAKE_TOOLCHAIN_FILE=/home/tony/data/ws.play/vcpkg/scripts/buildsystems/vcpkg.cmake
 -DOpenCV_DIR=/home/tony/ws.local/ep.install.opencv/share/OpenCV
