@@ -28,8 +28,10 @@ void ImageItemDelegate::paint(QPainter *painter,
                               const QModelIndex &index) const
 {
     auto itemName = index.data().toString();
+    auto itemTitle = QString("itemTitle");
     auto itemPixmap = index.data(Qt::DecorationRole).value<QIcon>().pixmap(exampleImageSize);
-    auto itemTags = itemName;
+    auto itemTags = QString("itemTags");
+    auto itemDesc = QString("itemDesc");
     //const ExampleItem item = index.data(ExamplesListModel::ExampleItemRole).value<ExampleItem>();
     const QRect rc = option.rect;
 
@@ -50,7 +52,7 @@ void ImageItemDelegate::paint(QPainter *painter,
     QTextOption wrapped;
     wrapped.setWrapMode(QTextOption::WordWrap);
     int offset = 0;
-    if (hovered && 0) {
+    if (hovered ) {
         if (index != m_previousIndex) {
             m_previousIndex = index;
             m_startTime.start();
@@ -87,7 +89,7 @@ void ImageItemDelegate::paint(QPainter *painter,
             // The description text as fallback.
             painter->setPen(foregroundColor2);
             painter->setFont(sizedFont(11, option.widget));
-            painter->drawText(pixmapRect.adjusted(6, 10, -6, -10), index.data(Qt::DisplayRole).toString(), wrapped);
+            painter->drawText(pixmapRect.adjusted(6, 10, -6, -10), itemDesc, wrapped);
         }
         painter->setPen(foregroundColor1);
         painter->drawRect(pixmapRect.adjusted(-1, -1, -1, -1));
@@ -98,11 +100,11 @@ void ImageItemDelegate::paint(QPainter *painter,
     painter->setFont(sizedFont(13, option.widget));
     QRectF nameRect;
     if (offset) {
-        nameRect = painter->boundingRect(shiftedTextRect, index.data(Qt::DisplayRole).toString(), wrapped);
-        painter->drawText(nameRect, itemName, wrapped);
+        nameRect = painter->boundingRect(shiftedTextRect, itemTitle, wrapped);
+        painter->drawText(nameRect, itemTitle, wrapped);
     } else {
         nameRect = QRect(x, y + nameY, x + w, y + nameY + 20);
-        QString elidedName = fm.elidedText(index.data(Qt::DisplayRole).toString(), Qt::ElideRight, w - 20);
+        QString elidedName = fm.elidedText(itemTitle, Qt::ElideRight, w - 20);
         painter->drawText(nameRect, elidedName);
     }
 
@@ -119,7 +121,7 @@ void ImageItemDelegate::paint(QPainter *painter,
         QRect descRect = shiftedTextRect.adjusted(0, dd, 0, dd);
         painter->setPen(foregroundColor2);
         painter->setFont(sizedFont(11, option.widget));
-        painter->drawText(descRect, index.data(Qt::DisplayRole).toString(), wrapped);
+        painter->drawText(descRect, itemDesc, wrapped);
     }
 
     // Separator line between text and 'Tags:' section
