@@ -97,7 +97,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	layout->addLayout(hlayout);
 
 	auto threadId= [](const QString& name) -> QString 	{
-		return name + QString(": %1\n").arg((int)QThread::currentThreadId());
+		return name + QString(": %1\n").arg((long long)QThread::currentThreadId());
 	};
 /*
 	rxqt::from_signal(player, &Cvn::Apputil::VPlayer::present)

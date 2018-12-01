@@ -127,7 +127,7 @@ bool Extracter::mkIndex(const std::string & inputdir, const std::string & indexf
 
 
 	HighFive::File h5(rawDatafile, HighFive::File::ReadWrite | HighFive::File::Create | HighFive::File::Truncate);
-	std::vector<hsize_t> dim;
+	std::vector<size_t> dim;
 	dim.push_back(_maxImgPerObj * _maxOjbs);
 	dim.push_back(object_size);
 	HighFive::DataSpace objectspace(dim);

@@ -9,7 +9,10 @@ add_library ( ${package_name} STATIC
 		include/${PROJECT_NAME}/${package_name}/CPredictor.h
 		)
 
-target_link_libraries(${package_name} PUBLIC caffe2 openblas)
+target_link_libraries(${package_name} PUBLIC caffe2 )
+if(WIN32)
+	target_link_libraries(${package_name} PRIVATE openblas)
+endif()
 
 set_target_properties(${package_name} PROPERTIES 
 	OUTPUT_NAME ${PROJECT_NAME}${package_name})

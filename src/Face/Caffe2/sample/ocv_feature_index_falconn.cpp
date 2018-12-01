@@ -187,7 +187,7 @@ class DetectorApp : public TmplApp
 
 		HighFive::File query(queryFile.toString(), HighFive::File::ReadWrite | HighFive::File::Create | HighFive::File::Truncate);
 		unsigned K = 10; // 5-NN query
-		std::vector<hsize_t> dim;
+		std::vector<size_t> dim;
 		dim.push_back(maxImg * maxFolder);
 		dim.push_back(K+1);
 		HighFive::DataSpace resspace(dim);
