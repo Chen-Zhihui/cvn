@@ -13,3 +13,9 @@
 [submodule "3rdparty/qsyncable"]
 	path = 3rdparty/qsyncable
 	url = https://github.com/benlau/qsyncable.git
+[submodule "3rdparty/QHotkey"]
+	path = 3rdparty/QHotkey
+	url = https://github.com/Skycoder42/QHotkey.git
+[submodule "3rdparty/QSettingsDialog"]
+	path = 3rdparty/QSettingsDialog
+	url = https://github.com/Skycoder42/QSettingsDialog.git

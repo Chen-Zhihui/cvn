@@ -12,15 +12,15 @@ int main(int argc, char * argv[]) {
     QTabWidget widget;
     widget.resize(QSize(1000, 800));
 
-    auto view = new ImageListView;
+    auto view = new ImageListView(&widget);
     ImageListModel model;
     model.setupTestData();
     view->setModel(&model);
     widget.addTab(view, "ImageList");
 
-    widget.addTab(new Cvn::Apputil::DirView(), "DirView");
-    widget.addTab(new Player(), "Player");
-    widget.addTab(new ImageViewer(), "Image");
+    widget.addTab(new Cvn::Apputil::DirView(&widget), "DirView");
+    widget.addTab(new Player(&widget), "Player");
+    widget.addTab(new ImageViewer(&widget), "Image");
 
     widget.show();
     return app.exec();
