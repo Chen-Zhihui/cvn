@@ -56,8 +56,9 @@
 #include "Cvn/Apputilqt/ImageViewer.h"
 
 //! [0]
-ImageViewer::ImageViewer()
-   : imageLabel(new QLabel)
+ImageViewer::ImageViewer(QWidget * parent)
+   : QMainWindow(parent)
+   , imageLabel(new QLabel)
    , scrollArea(new QScrollArea)
    , scaleFactor(1)
 {

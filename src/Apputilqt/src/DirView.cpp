@@ -9,7 +9,7 @@ namespace Cvn
 	namespace Apputil
 	{
 
-		DirView::DirView() {
+		DirView::DirView(QWidget * parent ) : QTreeView(parent) {
 			setRootPath("");
 		}
 

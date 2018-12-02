@@ -53,6 +53,7 @@
 
 #include <QMainWindow>
 #include <QImage>
+#include <QWidget>
 #ifndef QT_NO_PRINTER
 #include <QPrinter>
 #endif
@@ -71,7 +72,7 @@ class ImageViewer : public QMainWindow
     Q_OBJECT
 
 public:
-    ImageViewer();
+    ImageViewer(QWidget * parent);
     bool loadFile(const QString &);
 
 public slots:

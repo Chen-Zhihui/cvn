@@ -4,22 +4,11 @@
 #include <QPalette>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QStackedWidget>
-
-#include <qtmaterialappbar.h>
+#include <QSplitter>
 #include <qtmaterialiconbutton.h>
-#include <qtmaterialtabs.h>
-
 #include <lib/qtmaterialtheme.h>
-
-#include <Cvn/Apputilqt/DirView.h>
 #include <Cvn/Apputilqt/QtRx.h>
-#include <Cvn/Apputilqt/Player.h>
-#include <Cvn/Apputilqt/ImageViewer.h>
-#include <Cvn/Apputilqt/ImageListModel.h>
-
 #include <QtAwesome.h>
-
 #include <rxqt.hpp>
 #include <rxcpp/operators/rx-subscribe_on.hpp>
 #include <rxcpp/operators/rx-observe_on.hpp>
@@ -42,79 +31,103 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	awesome->initFontAwesome();
 
 	QVBoxLayout * layout = new QVBoxLayout(this);
-	//layout->addWidget(new QLabel("top"));
-	layout->setContentsMargins(0, 0, 0, 0);
-	layout->setSpacing(0);
-
-	auto m_appBar = new QtMaterialAppBar(this);
-	layout->addWidget(m_appBar);
-    QtMaterialIconButton *button = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
-    button->setIconSize(QSize(24, 24));
-    button->setColor(Qt::white);
-    button->setFixedWidth(42);
-    m_appBar->appBarLayout()->addWidget(button);
-
-	QLabel *label = new QLabel("Inbox");
-    label->setAttribute(Qt::WA_TranslucentBackground);
-    label->setForegroundRole(QPalette::Foreground);
-    label->setContentsMargins(6, 0, 0, 0);
-    QPalette palette = label->palette();
-    palette.setColor(label->foregroundRole(), Qt::white);
-    label->setPalette(palette);
-    label->setFont(QFont("Roboto", 18, QFont::Normal));
-    m_appBar->appBarLayout()->addWidget(label);
-
-    //m_appBar->appBarLayout()->addStretch(1);
-
-	auto tabs = new  QtMaterialTabs(this);
-	m_appBar->appBarLayout()->addWidget(tabs);
     {
-        QVariantMap options;
-        tabs->addTab("Media", awesome->icon(fa::beer, options));
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->setSpacing(0);
     }
 
+    appbar = new QtMaterialAppBar(this);
     {
-        QVariantMap options;
-        options.insert("color", QColor(Qt::green));
-        options.insert("text-off", QString(fa::squareo));
-        options.insert("color-off", QColor(Qt::red));
-        tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
-    }
-    {
-        QVariantMap options;
-        tabs->addTab("Media", awesome->icon(fa::beer, options));
-    }
-    {
-        QVariantMap options;
-        tabs->addTab("Media", awesome->icon(fa::beer, options));
+        layout->addWidget(appbar);
+        QtMaterialIconButton *button = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
+        button->setIconSize(QSize(24, 24));
+        button->setColor(Qt::white);
+        button->setFixedWidth(42);
+        appbar->appBarLayout()->addWidget(button);
+
+        QLabel *label = new QLabel("Inbox");
+        label->setAttribute(Qt::WA_TranslucentBackground);
+        label->setForegroundRole(QPalette::Foreground);
+        label->setContentsMargins(6, 0, 0, 0);
+        QPalette palette = label->palette();
+        palette.setColor(label->foregroundRole(), Qt::white);
+        label->setPalette(palette);
+        label->setFont(QFont("Roboto", 18, QFont::Normal));
+        appbar->appBarLayout()->addWidget(label);
     }
 
+    apptab = new  QtMaterialTabs(this);
     {
-        QVariantMap options;
-        options.insert("color", QColor(Qt::green));
-        options.insert("text-off", QString(fa::squareo));
-        options.insert("color-off", QColor(Qt::red));
-        tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
+        appbar->appBarLayout()->addWidget(apptab);
+        apptab->setMaximumHeight(100);
     }
-	tabs->setMaximumHeight(100);
 
-	auto stacked = new QStackedWidget(this);
+	stacked = new QStackedWidget(this);
     layout->addWidget(stacked);
+    connect(apptab, SIGNAL(currentChanged(int)), stacked, SLOT(setCurrentIndex(int)));
 
-    auto view = new ImageListView;
-    ImageListModel * model= new ImageListModel;
-    model->setupTestData();
-    view->setModel(model);
-    stacked->addWidget(view);
-    //view->show();
+    //page one
+    {
+        detectorPage = new QSplitter(Qt::Vertical, stacked);
+        stacked->addWidget(detectorPage);
+        {
+            QVariantMap options;
+            apptab->addTab("Player", awesome->icon(fa::beer, options));
+        }
 
+        fsView = new Cvn::Apputil::DirView(detectorPage);
+        player = new Player(detectorPage);
+        detView = new ImageListView(detectorPage);
+        detView->setFlow(QListView::LeftToRight);
+        monitor = new ImageViewer(detectorPage);
+        {
+            auto up = new QSplitter(Qt::Horizontal,detectorPage);
+            auto down = new QSplitter(Qt::Horizontal,detectorPage);
+            detectorPage->addWidget(up);
+            detectorPage->addWidget(down);
+            up->addWidget(fsView);
+            up->addWidget(player);
+            down->addWidget(monitor);
+            down->addWidget(detView);
+        }
+    }
 
-	auto player = new Player(this);
-	stacked->addWidget(player);
-	stacked->addWidget(new Cvn::Apputil::DirView());
-    stacked->addWidget(new ImageViewer());
+    //page two
+    {
+        searchPage = new QSplitter(Qt::Horizontal,stacked);
+        stacked->addWidget(searchPage);
+        {
+            QVariantMap options;
+            options.insert("color", QColor(Qt::green));
+            options.insert("text-off", QString(fa::squareo));
+            options.insert("color-off", QColor(Qt::red));
+            apptab->addTab("Search", awesome->icon(fa::checksquareo, options));
+        }
+        byNameView = new ImageListView(searchPage);
+        byImageView = new ImageListView(searchPage);
+        imageView = new ImageViewer(searchPage);
+        dbPanel = new QWidget(searchPage);
+        {
+            searchPage->addWidget(byImageView);
+            auto vlayout = new QSplitter(Qt::Vertical, searchPage);
+            vlayout->setMinimumWidth(300);
+            vlayout->addWidget(imageView);
+            vlayout->addWidget(dbPanel);
+            searchPage->addWidget(byNameView);
+        }
+    }
 
-
+    {
+        settings = new QSplitter(Qt::Horizontal, stacked);
+        stacked->addWidget(settings);
+        {
+            QVariantMap options;
+            options.insert("color", QColor(Qt::green));
+            options.insert("text-off", QString(fa::home));
+            options.insert("color-off", QColor(Qt::red));
+            apptab->addTab("Settings", awesome->icon(fa::home, options));
+        }
+    }
 /*
 	auto hlayout = new QHBoxLayout();
 	layout->addLayout(hlayout);
@@ -146,5 +159,4 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	*/
 
 
-	connect(tabs, SIGNAL(currentChanged(int)), stacked, SLOT(setCurrentIndex(int)));
 }

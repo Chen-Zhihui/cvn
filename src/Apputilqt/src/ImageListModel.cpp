@@ -61,5 +61,5 @@ ImageListView::ImageListView(QWidget *p):
     setVerticalScrollMode(ScrollPerPixel);
     setMouseTracking(true); // To enable hover.
     setSelectionMode(QAbstractItemView::NoSelection);
-    setFrameShape(QFrame::NoFrame);
+    //setFrameShape(QFrame::NoFrame);
 }

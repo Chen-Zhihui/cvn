@@ -4,6 +4,7 @@
 
 #include <QTreeView>
 #include <QFileSystemModel>
+#include <QWidget>
 
 namespace Cvn
 {
@@ -11,8 +12,9 @@ namespace Cvn
 	{
 
 		class DirView : public QTreeView {
+			Q_OBJECT
 		public:
-			DirView();
+			DirView(QWidget * parent = nullptr);
 
 			void setRootPath(const QString & newPath);
 
