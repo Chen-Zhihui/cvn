@@ -15,6 +15,8 @@
 #include <Cvn/Apputilqt/DirView.h>
 #include <Cvn/Apputilqt/QtRx.h>
 #include <Cvn/Apputilqt/Player.h>
+#include <Cvn/Apputilqt/ImageViewer.h>
+#include <Cvn/Apputilqt/ImageListModel.h>
 
 #include <QtAwesome.h>
 
@@ -62,32 +64,60 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
     label->setFont(QFont("Roboto", 18, QFont::Normal));
     m_appBar->appBarLayout()->addWidget(label);
 
-    m_appBar->appBarLayout()->addStretch(1);
+    //m_appBar->appBarLayout()->addStretch(1);
 
 	auto tabs = new  QtMaterialTabs(this);
 	m_appBar->appBarLayout()->addWidget(tabs);
-	{
-		QVariantMap options;
-		tabs->addTab("Media", awesome->icon(fa::beer, options));
-	}
+    {
+        QVariantMap options;
+        tabs->addTab("Media", awesome->icon(fa::beer, options));
+    }
 
-	{
-		QVariantMap options;
-		options.insert("color", QColor(Qt::green));
-		options.insert("text-off", QString(fa::squareo));
-		options.insert("color-off", QColor(Qt::red));
-		tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
-	}
+    {
+        QVariantMap options;
+        options.insert("color", QColor(Qt::green));
+        options.insert("text-off", QString(fa::squareo));
+        options.insert("color-off", QColor(Qt::red));
+        tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
+    }
+    {
+        QVariantMap options;
+        tabs->addTab("Media", awesome->icon(fa::beer, options));
+    }
+    {
+        QVariantMap options;
+        tabs->addTab("Media", awesome->icon(fa::beer, options));
+    }
+
+    {
+        QVariantMap options;
+        options.insert("color", QColor(Qt::green));
+        options.insert("text-off", QString(fa::squareo));
+        options.insert("color-off", QColor(Qt::red));
+        tabs->addTab("DirView", awesome->icon(fa::checksquareo, options));
+    }
 	tabs->setMaximumHeight(100);
 
 	auto stacked = new QStackedWidget(this);
+    layout->addWidget(stacked);
+
+    auto view = new ImageListView;
+    ImageListModel * model= new ImageListModel;
+    model->setupTestData();
+    view->setModel(model);
+    stacked->addWidget(view);
+    //view->show();
+
+
 	auto player = new Player(this);
 	stacked->addWidget(player);
 	stacked->addWidget(new Cvn::Apputil::DirView());
+    stacked->addWidget(new ImageViewer());
 
-	layout->addWidget(stacked);
 
-	auto hlayout = new QHBoxLayout(this);
+/*
+	auto hlayout = new QHBoxLayout();
+	layout->addLayout(hlayout);
 	auto left = new QLabel(this);
 	auto middle = new QLabel(this);
 	auto right = new QLabel(this);
@@ -99,7 +129,6 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	auto threadId= [](const QString& name) -> QString 	{
 		return name + QString(": %1\n").arg((long long)QThread::currentThreadId());
 	};
-/*
 	rxqt::from_signal(player, &Cvn::Apputil::VPlayer::present)
 		.subscribe_on(rx::observe_on_new_thread())
 		.map([](const QImage & s) -> QString { return QTime::currentTime().toString(); })

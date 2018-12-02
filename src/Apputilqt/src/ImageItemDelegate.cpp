@@ -1,5 +1,5 @@
 ﻿
-#include "imageitemdelegate.h"
+#include "ImageItemDelegate.h"
 
 #include <QFont>
 
@@ -22,6 +22,11 @@ const int itemGap = 10;
 const int tagsSeparatorY = itemHeight - 60;
 const QSize exampleImageSize(188, 145);
 
+bool ImageItemDelegate::editorEvent(QEvent *ev, QAbstractItemModel *model,
+                 const QStyleOptionViewItem &option, const QModelIndex &idx) {
+    return QStyledItemDelegate::editorEvent(ev, model, option, idx);
+}
+
 
 void ImageItemDelegate::paint(QPainter *painter,
                               const QStyleOptionViewItem &option,
@@ -32,7 +37,6 @@ void ImageItemDelegate::paint(QPainter *painter,
     auto itemPixmap = index.data(Qt::DecorationRole).value<QIcon>().pixmap(exampleImageSize);
     auto itemTags = QString("itemTags");
     auto itemDesc = QString("itemDesc");
-    //const ExampleItem item = index.data(ExamplesListModel::ExampleItemRole).value<ExampleItem>();
     const QRect rc = option.rect;
 
     const int d = 10;
@@ -79,8 +83,6 @@ void ImageItemDelegate::paint(QPainter *painter,
         QRect pixmapRect = inner;
         if (!pm.isNull()) {
             painter->setPen(foregroundColor2);
-            if (!m_showExamples)
-                pixmapRect = inner.adjusted(6, 20, -6, -15);
             QPoint pixmapPos = pixmapRect.center();
             pixmapPos.rx() -= pm.width() / pm.devicePixelRatio() / 2;
             pixmapPos.ry() -= pm.height() / pm.devicePixelRatio() / 2;
@@ -165,5 +167,7 @@ QSize ImageItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMod
 {
     return QSize(230, 230);
 }
+
+ImageItemDelegate::ImageItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
 

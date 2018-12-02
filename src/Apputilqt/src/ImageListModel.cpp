@@ -1,7 +1,7 @@
 ﻿#include <Cvn/Apputilqt/ImageListModel.h>
 #include <QStyle>
 #include <QTextOption>
-#include "imageitemdelegate.h"
+#include "ImageItemDelegate.h"
 #include <QAbstractItemView>
 #include <QPainter>
 #include <QTime>
@@ -44,26 +44,6 @@ void ImageListModel::setupTestData()
 }
 
 
-class ImageLabel : public QStyledItemDelegate {
-public:
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
-        QRect rc = option.rect;
-        painter->drawRect(rc);
-        rc.adjust(2,2,-2,-2);
-//        painter->drawPixmap(rc, index.data(Qt::DecorationRole).value<QIcon>().pixmap(rc.size()));
-    }
-
-
-    virtual QWidget * createEditor(QWidget *parent,
-                                   const QStyleOptionViewItem &option,
-                                   const QModelIndex &index) const override {
-        QString text = index.data().toString();
-        return new QLabel(text, parent);
-    }
-
-private:
-};
-
 ImageListView::ImageListView(QWidget *p):
     QListView(p)
 {
@@ -76,7 +56,7 @@ ImageListView::ImageListView(QWidget *p):
     this->setFocusPolicy(Qt::NoFocus);
     this->setTextElideMode(Qt::ElideMiddle);
     this->setMovement(QListView::Static);
-    this->setItemDelegate(new ImageItemDelegate);
+    this->setItemDelegate(new ImageItemDelegate(this));
 
     setVerticalScrollMode(ScrollPerPixel);
     setMouseTracking(true); // To enable hover.

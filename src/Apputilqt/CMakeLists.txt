@@ -21,6 +21,8 @@ include/${PROJECT_NAME}/${package_name}/QtScheduler.h
 include/${PROJECT_NAME}/${package_name}/QtRx.h
 include/${PROJECT_NAME}/${package_name}/DirView.h
 src/AppWidget.h
+		src/ImageItemDelegate.h
+		include/${PROJECT_NAME}/${package_name}/ImageListModel.h
 )
 
 QT5_WRAP_CPP(qplayer_hdr_moc ${qplayer_hdr})
@@ -37,6 +39,8 @@ src/PlayerControls.cpp
 src/VideoWidget.cpp 
 src/HistogramWidget.cpp 
 src/ImageViewer.cpp
+		src/ImageItemDelegate.cpp
+		src/ImageListModel.cpp
 ${qplayer_hdr_moc} 
 #${qplayer_src}
 )
