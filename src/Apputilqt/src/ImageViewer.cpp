@@ -73,7 +73,7 @@ ImageViewer::ImageViewer(QWidget * parent)
 
     createActions();
 
-    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    //resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 QImage ImageViewer::currentImg() const {
@@ -108,7 +108,10 @@ bool ImageViewer::loadFile(const QString &fileName)
 
 void ImageViewer::setImage(const QImage &newImage)
 {
-    image = newImage;
+    auto s = this->size();
+    auto smin = std::min(s.width(), s.height());
+    smin = std::min(smin, this->height()-menuBar()->height()-statusBar()->height());
+    image = newImage.scaled(QSize(smin, smin), Qt::KeepAspectRatio);
     imageLabel->setPixmap(QPixmap::fromImage(image));
 //! [4]
     scaleFactor = 1.0;

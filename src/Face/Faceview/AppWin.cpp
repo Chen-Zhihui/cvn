@@ -73,7 +73,7 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
         apptab->setMaximumHeight(100);
     }
 
-	auto settingBtn = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
+	auto settingBtn = new QtMaterialIconButton(awesome->icon(fa::home));
 	{
 		settingBtn->setIconSize(QSize(24, 24));
 		settingBtn->setColor(Qt::white);
@@ -94,8 +94,7 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
         detectorPage = new QSplitter(Qt::Vertical, stacked);
         stacked->addWidget(detectorPage);
         {
-            QVariantMap options;
-            apptab->addTab("Player", awesome->icon(fa::beer, options));
+            apptab->addTab("", awesome->icon(fa::filemovieo));
         }
 
         fsView = new DirView(detectorPage);
@@ -120,11 +119,7 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
         searchPage = new QSplitter(Qt::Horizontal, stacked);
         stacked->addWidget(searchPage);
         {
-            QVariantMap options;
-            options.insert("color", QColor(Qt::green));
-            options.insert("text-off", QString(fa::squareo));
-            options.insert("color-off", QColor(Qt::red));
-            apptab->addTab("Search", awesome->icon(fa::checksquareo, options));
+            apptab->addTab("", awesome->icon(fa::checksquareo));
         }
         byNameView = new ImageListView(searchPage);
         byImageView = new ImageListView(searchPage);
