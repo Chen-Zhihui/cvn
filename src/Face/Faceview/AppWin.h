@@ -20,6 +20,9 @@ public:
 
 	//rxqt::run_loop rxqt_run_loop;
 
+public slots:
+	void showSettings() const;
+
 public:
 
     QtMaterialAppBar * appbar = nullptr;
@@ -43,12 +46,6 @@ public:
     ImageListModel byImageList;
     ImageViewer * imageView = nullptr;
     QWidget * dbPanel = nullptr;
-
-    //page last
-    QSplitter * settingsView = nullptr;
-    QSettings * settings = nullptr;
-
-
 
 	// monitor
 	// player

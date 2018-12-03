@@ -33,7 +33,7 @@ using namespace rxcpp::util;
 AppWin::AppWin(QWidget *parent) : QWidget(parent)
 {
 
-    settings = new QSettings(QApplication::applicationDirPath() + "/test.ini", QSettings::IniFormat);
+	QSettings settings(QApplication::applicationDirPath() + "/test.ini", QSettings::IniFormat);
 
     QtAwesome *awesome = new QtAwesome(this);
     awesome->initFontAwesome();
@@ -47,21 +47,24 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
     appbar = new QtMaterialAppBar(this);
     {
         layout->addWidget(appbar);
-        QtMaterialIconButton *button = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
-        button->setIconSize(QSize(24, 24));
-        button->setColor(Qt::white);
-        button->setFixedWidth(42);
-        appbar->appBarLayout()->addWidget(button);
-
-        QLabel *label = new QLabel("Inbox");
-        label->setAttribute(Qt::WA_TranslucentBackground);
-        label->setForegroundRole(QPalette::Foreground);
-        label->setContentsMargins(6, 0, 0, 0);
-        QPalette palette = label->palette();
-        palette.setColor(label->foregroundRole(), Qt::white);
-        label->setPalette(palette);
-        label->setFont(QFont("Roboto", 18, QFont::Normal));
-        appbar->appBarLayout()->addWidget(label);
+		if (0) {
+			QtMaterialIconButton *button = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
+			button->setIconSize(QSize(24, 24));
+			button->setColor(Qt::white);
+			button->setFixedWidth(42);
+			appbar->appBarLayout()->addWidget(button);
+		}
+		if (0) {
+			QLabel *label = new QLabel("Inbox");
+			label->setAttribute(Qt::WA_TranslucentBackground);
+			label->setForegroundRole(QPalette::Foreground);
+			label->setContentsMargins(6, 0, 0, 0);
+			QPalette palette = label->palette();
+			palette.setColor(label->foregroundRole(), Qt::white);
+			label->setPalette(palette);
+			label->setFont(QFont("Roboto", 18, QFont::Normal));
+			appbar->appBarLayout()->addWidget(label);
+		}
     }
 
     apptab = new QtMaterialTabs(this);
@@ -69,6 +72,18 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
         appbar->appBarLayout()->addWidget(apptab);
         apptab->setMaximumHeight(100);
     }
+
+	auto settingBtn = new QtMaterialIconButton(QtMaterialTheme::icon("navigation", "menu"));
+	{
+		settingBtn->setIconSize(QSize(24, 24));
+		settingBtn->setColor(Qt::white);
+		settingBtn->setFixedWidth(42);
+	}
+	connect(settingBtn, &QtMaterialIconButton::clicked, [this]() {
+		showSettings();
+	});
+	appbar->appBarLayout()->addWidget(settingBtn);
+
 
     stacked = new QStackedWidget(this);
     layout->addWidget(stacked);
@@ -124,79 +139,6 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
             searchPage->addWidget(byNameView);
         }
     }
-
-    {
-        settingsView = new QSplitter(Qt::Horizontal, stacked);
-        stacked->addWidget(settingsView);
-        {
-            QVariantMap options;
-            options.insert("color", QColor(Qt::green));
-            options.insert("text-off", QString(fa::home));
-            options.insert("color-off", QColor(Qt::red));
-            apptab->addTab("Settings", awesome->icon(fa::home, options));
-        }
-        {
-            QWidget * parent = new QWidget(settingsView);
-            settingsView->addWidget(parent);
-
-            QSettingsDialog *pdialog = new QSettingsDialog;            
-            QSettingsDialog &dialog(*pdialog);
-            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
-                                                  new QSettingsSettingsLoader(settings, "appName"),
-                                                  "App name"));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
-                                                  new QSettingsSettingsLoader(settings, "companyName"),
-                                                  "Company name"));
-
-            dialog.setGroup("versionGroup", 0, "Version", true, "Please configure the version");
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
-                                                  new QSettingsSettingsLoader(settings, "version/major"),
-                                                  "Major",
-                                                  false,
-                                                  QString(),
-                                                  {{"minimum", 0}, {"maximum", 9}}));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
-                                                  new QSettingsSettingsLoader(settings, "version/minor"),
-                                                  "Minor",
-                                                  false,
-                                                  QString(),
-                                                  {{"minimum", 0}, {"maximum", 9}}));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
-                                                  new QSettingsSettingsLoader(settings, "version/patch"),
-                                                  "Patch",
-                                                  false,
-                                                  QString(),
-                                                  {{"minimum", 0}, {"maximum", 9}}));
-
-            dialog.unsetGroup();
-            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
-                                                  new QSettingsSettingsLoader(settings, "authorName"),
-                                                  "Load Programmer",
-                                                  true));
-
-            dialog.setSection("more", "More Stuff");
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
-                                                  new QSettingsSettingsLoader(settings, "allow/A"),
-                                                  "Allow Option A"));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
-                                                  new QSettingsSettingsLoader(settings, "allow/B"),
-                                                  "Allow Option B"));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
-                                                  new QSettingsSettingsLoader(settings, "allow/C"),
-                                                  "Allow Option C"));
-
-            dialog.setCategory("secret", "Secret Secure Settings", QIcon(":/QSettingsDialog/icons/gearSettings.ico"));
-            dialog.setSection("."); //will not be required in next version
-            dialog.appendEntry(new QSettingsEntry(QMetaType::QUrl,
-                                                  new QSettingsSettingsLoader(settings, "secretUrl"),
-                                                  "Very secret url"));
-            dialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
-                                                  new QSettingsSettingsLoader(settings, "secretColor"),
-                                                  "Very secret color"));
-
-            dialog.openSettings(parent);
-        }
-    }
     /*
 	auto hlayout = new QHBoxLayout();
 	layout->addLayout(hlayout);
@@ -226,4 +168,66 @@ AppWin::AppWin(QWidget *parent) : QWidget(parent)
 		left->setText(QString("KeyEvent=%1").arg(ke->key()));
 	});
 	*/
+}
+
+void AppWin::showSettings() const {
+
+
+	QSettings settings(QApplication::applicationDirPath() + "/test.ini", QSettings::IniFormat);
+
+		QSettingsDialog dialog;
+		dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+			new QSettingsSettingsLoader(&settings, "appName"),
+			"App name"));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+			new QSettingsSettingsLoader(&settings, "companyName"),
+			"Company name"));
+
+		dialog.setGroup("versionGroup", 0, "Version", true, "Please configure the version");
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+			new QSettingsSettingsLoader(&settings, "version/major"),
+			"Major",
+			false,
+			QString(),
+			{ {"minimum", 0}, {"maximum", 9} }));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+			new QSettingsSettingsLoader(&settings, "version/minor"),
+			"Minor",
+			false,
+			QString(),
+			{ {"minimum", 0}, {"maximum", 9} }));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+			new QSettingsSettingsLoader(&settings, "version/patch"),
+			"Patch",
+			false,
+			QString(),
+			{ {"minimum", 0}, {"maximum", 9} }));
+
+		dialog.unsetGroup();
+		dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+			new QSettingsSettingsLoader(&settings, "authorName"),
+			"Load Programmer",
+			true));
+
+		dialog.setSection("more", "More Stuff");
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+			new QSettingsSettingsLoader(&settings, "allow/A"),
+			"Allow Option A"));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+			new QSettingsSettingsLoader(&settings, "allow/B"),
+			"Allow Option B"));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+			new QSettingsSettingsLoader(&settings, "allow/C"),
+			"Allow Option C"));
+
+		dialog.setCategory("secret", "Secret Secure Settings", QIcon(":/QSettingsDialog/icons/gearSettings.ico"));
+		dialog.setSection("."); //will not be required in next version
+		dialog.appendEntry(new QSettingsEntry(QMetaType::QUrl,
+			new QSettingsSettingsLoader(&settings, "secretUrl"),
+			"Very secret url"));
+		dialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+			new QSettingsSettingsLoader(&settings, "secretColor"),
+			"Very secret color"));
+
+		dialog.openSettings();	
 }
