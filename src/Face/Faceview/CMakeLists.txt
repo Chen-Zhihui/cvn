@@ -10,7 +10,7 @@ AppWin.cpp
 )
 
 target_link_libraries(app_faceview
-        PUBLIC qtmaterial qtawesome qdarkstyle qpathedit Apputilqt  Apputil Poco::Foundation
+        PUBLIC qtmaterial qtawesome qdarkstyle qpathedit qsettingsdialog Apputilqt  Apputil Poco::Foundation
         ${FFMPEG_LIBRARIES}
         )
 

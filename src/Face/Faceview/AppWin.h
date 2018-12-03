@@ -1,6 +1,7 @@
 
 #include <QMainWindow>
 #include <QSplitter>
+#include <QSettings>
 #include <QFileSystemModel>
 #include <rxqt.hpp>
 #include <QStackedWidget>
@@ -44,8 +45,8 @@ public:
     QWidget * dbPanel = nullptr;
 
     //page last
-    QSplitter * settings = nullptr;
-
+    QSplitter * settingsView = nullptr;
+    QSettings * settings = nullptr;
 
 
 

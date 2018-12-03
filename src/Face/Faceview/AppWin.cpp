@@ -9,28 +9,36 @@
 #include <lib/qtmaterialtheme.h>
 #include <Cvn/Apputilqt/QtRx.h>
 #include <QtAwesome.h>
+#include <QApplication>
 #include <rxqt.hpp>
 #include <rxcpp/operators/rx-subscribe_on.hpp>
 #include <rxcpp/operators/rx-observe_on.hpp>
+#include <qsettingsdialog.h>
+#include <qsettingssettingsloader.h>
 
 #include <rxqt.hpp>
 #include <QTime>
 #include <QThread>
 #include <QDebug>
 
-namespace rx {
-	using namespace rxcpp;
-	using namespace rxcpp::sources;
-	using namespace rxcpp::operators;
-	using namespace rxcpp::schedulers;
-	using namespace rxcpp::util;
-}
+namespace rx
+{
+using namespace rxcpp;
+using namespace rxcpp::sources;
+using namespace rxcpp::operators;
+using namespace rxcpp::schedulers;
+using namespace rxcpp::util;
+} // namespace rx
 
-AppWin::AppWin(QWidget * parent) :QWidget(parent) {
-	QtAwesome* awesome = new QtAwesome(this);
-	awesome->initFontAwesome();
+AppWin::AppWin(QWidget *parent) : QWidget(parent)
+{
 
-	QVBoxLayout * layout = new QVBoxLayout(this);
+    settings = new QSettings(QApplication::applicationDirPath() + "/test.ini", QSettings::IniFormat);
+
+    QtAwesome *awesome = new QtAwesome(this);
+    awesome->initFontAwesome();
+
+    QVBoxLayout *layout = new QVBoxLayout(this);
     {
         layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(0);
@@ -56,13 +64,13 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
         appbar->appBarLayout()->addWidget(label);
     }
 
-    apptab = new  QtMaterialTabs(this);
+    apptab = new QtMaterialTabs(this);
     {
         appbar->appBarLayout()->addWidget(apptab);
         apptab->setMaximumHeight(100);
     }
 
-	stacked = new QStackedWidget(this);
+    stacked = new QStackedWidget(this);
     layout->addWidget(stacked);
     connect(apptab, SIGNAL(currentChanged(int)), stacked, SLOT(setCurrentIndex(int)));
 
@@ -81,8 +89,8 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
         detView->setFlow(QListView::LeftToRight);
         monitor = new ImageViewer(detectorPage);
         {
-            auto up = new QSplitter(Qt::Horizontal,detectorPage);
-            auto down = new QSplitter(Qt::Horizontal,detectorPage);
+            auto up = new QSplitter(Qt::Horizontal, detectorPage);
+            auto down = new QSplitter(Qt::Horizontal, detectorPage);
             detectorPage->addWidget(up);
             detectorPage->addWidget(down);
             up->addWidget(fsView);
@@ -94,7 +102,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 
     //page two
     {
-        searchPage = new QSplitter(Qt::Horizontal,stacked);
+        searchPage = new QSplitter(Qt::Horizontal, stacked);
         stacked->addWidget(searchPage);
         {
             QVariantMap options;
@@ -118,8 +126,8 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
     }
 
     {
-        settings = new QSplitter(Qt::Horizontal, stacked);
-        stacked->addWidget(settings);
+        settingsView = new QSplitter(Qt::Horizontal, stacked);
+        stacked->addWidget(settingsView);
         {
             QVariantMap options;
             options.insert("color", QColor(Qt::green));
@@ -127,8 +135,69 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
             options.insert("color-off", QColor(Qt::red));
             apptab->addTab("Settings", awesome->icon(fa::home, options));
         }
+        {
+            QWidget * parent = new QWidget(settingsView);
+            settingsView->addWidget(parent);
+
+            QSettingsDialog *pdialog = new QSettingsDialog;            
+            QSettingsDialog &dialog(*pdialog);
+            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                                  new QSettingsSettingsLoader(settings, "appName"),
+                                                  "App name"));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                                  new QSettingsSettingsLoader(settings, "companyName"),
+                                                  "Company name"));
+
+            dialog.setGroup("versionGroup", 0, "Version", true, "Please configure the version");
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                                  new QSettingsSettingsLoader(settings, "version/major"),
+                                                  "Major",
+                                                  false,
+                                                  QString(),
+                                                  {{"minimum", 0}, {"maximum", 9}}));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                                  new QSettingsSettingsLoader(settings, "version/minor"),
+                                                  "Minor",
+                                                  false,
+                                                  QString(),
+                                                  {{"minimum", 0}, {"maximum", 9}}));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                                  new QSettingsSettingsLoader(settings, "version/patch"),
+                                                  "Patch",
+                                                  false,
+                                                  QString(),
+                                                  {{"minimum", 0}, {"maximum", 9}}));
+
+            dialog.unsetGroup();
+            dialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                                  new QSettingsSettingsLoader(settings, "authorName"),
+                                                  "Load Programmer",
+                                                  true));
+
+            dialog.setSection("more", "More Stuff");
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                                  new QSettingsSettingsLoader(settings, "allow/A"),
+                                                  "Allow Option A"));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                                  new QSettingsSettingsLoader(settings, "allow/B"),
+                                                  "Allow Option B"));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                                  new QSettingsSettingsLoader(settings, "allow/C"),
+                                                  "Allow Option C"));
+
+            dialog.setCategory("secret", "Secret Secure Settings", QIcon(":/QSettingsDialog/icons/gearSettings.ico"));
+            dialog.setSection("."); //will not be required in next version
+            dialog.appendEntry(new QSettingsEntry(QMetaType::QUrl,
+                                                  new QSettingsSettingsLoader(settings, "secretUrl"),
+                                                  "Very secret url"));
+            dialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                                  new QSettingsSettingsLoader(settings, "secretColor"),
+                                                  "Very secret color"));
+
+            dialog.openSettings(parent);
+        }
     }
-/*
+    /*
 	auto hlayout = new QHBoxLayout();
 	layout->addLayout(hlayout);
 	auto left = new QLabel(this);
@@ -157,6 +226,4 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 		left->setText(QString("KeyEvent=%1").arg(ke->key()));
 	});
 	*/
-
-
 }

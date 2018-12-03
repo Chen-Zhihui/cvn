@@ -1,7 +1,7 @@
 
 add_library(rxqt INTERFACE)
 target_include_directories(rxqt INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/rxqt/include>
+  $<BUILD_INTERFACE:${eproot}/rxqt/include>
   $<INSTALL_INTERFACE:include/rxqt>
 )
 
