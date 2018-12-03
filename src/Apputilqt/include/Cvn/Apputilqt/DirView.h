@@ -6,12 +6,10 @@
 #include <QFileSystemModel>
 #include <QWidget>
 
-namespace Cvn
-{
-	namespace Apputil
-	{
 
-		class DirView : public QTreeView {
+class QPathEdit;
+
+		class DirView : public QWidget {
 			Q_OBJECT
 		public:
 			DirView(QWidget * parent = nullptr);
@@ -22,7 +20,7 @@ namespace Cvn
 
 		private :
 			QFileSystemModel _filesystem;
+			QTreeView * view = nullptr;
+			QPathEdit * edit = nullptr;
 		};
 
-	}
-}

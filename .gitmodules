@@ -19,3 +19,15 @@
 [submodule "3rdparty/QSettingsDialog"]
 	path = 3rdparty/QSettingsDialog
 	url = https://github.com/Skycoder42/QSettingsDialog.git
+[submodule "3rdparty/QtMvvm"]
+	path = 3rdparty/QtMvvm
+	url = https://github.com/Skycoder42/QtMvvm.git
+[submodule "3rdparty/QPathEdit"]
+	path = 3rdparty/QPathEdit
+	url = https://github.com/Skycoder42/QPathEdit.git
+[submodule "3rdparty/DialogMaster"]
+	path = 3rdparty/DialogMaster
+	url = https://github.com/Skycoder42/DialogMaster.git
+[submodule "3rdparty/QColorEdit"]
+	path = 3rdparty/QColorEdit
+	url = https://github.com/Skycoder42/QColorEdit.git

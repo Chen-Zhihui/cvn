@@ -20,9 +20,9 @@ include/${PROJECT_NAME}/${package_name}/QtApplication.h
 include/${PROJECT_NAME}/${package_name}/QtScheduler.h
 include/${PROJECT_NAME}/${package_name}/QtRx.h
 include/${PROJECT_NAME}/${package_name}/DirView.h
+include/${PROJECT_NAME}/${package_name}/ImageListModel.h
 src/AppWidget.h
-		src/ImageItemDelegate.h
-		include/${PROJECT_NAME}/${package_name}/ImageListModel.h
+src/ImageItemDelegate.h
 )
 
 QT5_WRAP_CPP(qplayer_hdr_moc ${qplayer_hdr})
@@ -39,8 +39,8 @@ src/PlayerControls.cpp
 src/VideoWidget.cpp 
 src/HistogramWidget.cpp 
 src/ImageViewer.cpp
-		src/ImageItemDelegate.cpp
-		src/ImageListModel.cpp
+src/ImageItemDelegate.cpp
+src/ImageListModel.cpp
 ${qplayer_hdr_moc} 
 #${qplayer_src}
 )
@@ -48,7 +48,7 @@ ${qplayer_hdr_moc}
 
 target_link_libraries(${package_name} 
     PUBLIC Poco::Util Qt5::Core Qt5::Gui Qt5::Widgets  Qt5::Multimedia  Qt5::MultimediaWidgets Qt5::PrintSupport Async++ BZip2::BZip2 rxqt
-	#PRIVATE openshot  
+	PRIVATE qpathedit  
 )
 
 set_target_properties(${package_name} PROPERTIES 

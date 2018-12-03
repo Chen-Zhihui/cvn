@@ -27,7 +27,7 @@ public:
 
     //page one
 	QSplitter * detectorPage = nullptr;
-	Cvn::Apputil::DirView * fsView = nullptr;
+	DirView * fsView = nullptr;
 
     Player * player = nullptr;
     ImageListView * detView = nullptr;

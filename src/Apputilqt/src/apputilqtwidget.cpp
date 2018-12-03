@@ -18,7 +18,7 @@ int main(int argc, char * argv[]) {
     view->setModel(&model);
     widget.addTab(view, "ImageList");
 
-    widget.addTab(new Cvn::Apputil::DirView(&widget), "DirView");
+    widget.addTab(new DirView(&widget), "DirView");
     widget.addTab(new Player(&widget), "Player");
     widget.addTab(new ImageViewer(&widget), "Image");
 

@@ -75,7 +75,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
             apptab->addTab("Player", awesome->icon(fa::beer, options));
         }
 
-        fsView = new Cvn::Apputil::DirView(detectorPage);
+        fsView = new DirView(detectorPage);
         player = new Player(detectorPage);
         detView = new ImageListView(detectorPage);
         detView->setFlow(QListView::LeftToRight);

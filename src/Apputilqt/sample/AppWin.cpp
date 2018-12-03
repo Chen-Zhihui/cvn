@@ -63,7 +63,7 @@ AppWin::AppWin(QWidget * parent) :QWidget(parent) {
 	auto stacked = new QStackedWidget(this);
 	auto player = new Cvn::Apputil::VPlayer(this);
 	stacked->addWidget(player);
-	stacked->addWidget(new Cvn::Apputil::DirView());
+	stacked->addWidget(new DirView());
 
 	layout->addWidget(stacked);
 
